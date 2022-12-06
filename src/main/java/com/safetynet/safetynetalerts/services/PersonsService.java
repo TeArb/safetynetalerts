@@ -7,6 +7,8 @@ import com.safetynet.safetynetalerts.models.Persons;
 import com.safetynet.safetynetalerts.repositories.FirestationsRepository;
 import com.safetynet.safetynetalerts.repositories.MedicalrecordsRepository;
 import com.safetynet.safetynetalerts.repositories.PersonsRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 public class PersonsService {
-
+    private static final Logger logger = LogManager.getLogger("PersonsService");
     @Autowired
     private FirestationsRepository firestationsRepository;
     @Autowired
@@ -28,36 +30,35 @@ public class PersonsService {
 
     public PersonWhoAreAdult getPersonByStationNumber(String stationNumber) {
         List<Persons> personsList = this.personsRepository.getPersons();
-        List<Persons> result = new ArrayList<>();
-
+        List<Persons> personResult = new ArrayList<>();
         List<Medicalrecords> medicalrecordsList = this.medicalrecordsRepository.getMedicalrecords();
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream().filter(
-                //element -> element.getStation().equals(stationNumber)).collect(Collectors.toList());
                 element -> element.getStation().equals(stationNumber)).toList();
+        childrenNumbers = 0;
+        adultNumbers = 0;
 
-        //if (firestationsList != null ? !firestationsList.isEmpty() : false) {
         if (!firestationsList.isEmpty()) {
             firestationsList.forEach(station -> personsList.forEach(person ->  {
 
                 if (person.getAddress().equals(station.getAddress())) {
                     Medicalrecords medicalrecords = medicalrecordsList.stream().filter(
                            element -> element.getPerson().equals(person)
-                    //).findFirst().get();
                     ).findFirst().orElse(null);
                     assert medicalrecords != null;
-                    Long age = medicalrecords.getAge();
 
+                    Long age = medicalrecords.getAge();
                     if (age <= 18) {
                         childrenNumbers ++;
                     } else {
                         adultNumbers ++;
                     }
-                    result.add(person);
+                    personResult.add(person);
                 }
 
             }));
+        } else {
+            logger.error("Person by station number not get");
         }
-        return new PersonWhoAreAdult(childrenNumbers, adultNumbers, result);
+        return new PersonWhoAreAdult(adultNumbers, childrenNumbers, personResult);
     }
-
 }

@@ -1,9 +1,10 @@
 package com.safetynet.safetynetalerts.models;
 
 import com.jsoniter.any.Any;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -12,13 +13,23 @@ import java.util.List;
 import java.util.TimeZone;
 
 @Data
-@AllArgsConstructor
-public class Medicalrecords {
 
+public class Medicalrecords {
     private Persons person;
     private Date birthdate;
     private List<Any> medication;
     private List<Any> allergies;
+
+    public Medicalrecords(Persons person, String birthdate, List<Any> medication, List<Any> allergies) {
+        this.person = person;
+        try {
+            this.birthdate = new SimpleDateFormat("dd/MM/yyyy").parse(birthdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.medication = medication;
+        this.allergies = allergies;
+    }
 
     @Override
     public String toString() {

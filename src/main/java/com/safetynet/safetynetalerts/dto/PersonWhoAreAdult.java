@@ -8,10 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class PersonWhoAreAdult {
-
     private int childrenNumbers;
     private int adultNumbers;
     private List<Persons> personsList;
-    //private List<Persons> personsList = new ArrayList<>();
-
 }

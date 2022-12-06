@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Firestations {
-
     private String address;
     private String station;
 

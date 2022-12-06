@@ -4,20 +4,22 @@ import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import com.safetynet.safetynetalerts.models.Medicalrecords;
 import com.safetynet.safetynetalerts.models.Persons;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public class MedicalrecordsRepository {
+    private static final Logger logger = LogManager.getLogger("MedicalrecordsRepository");
     public List<Medicalrecords> getMedicalrecords() {
         List<Medicalrecords> medicalrecordsList = new ArrayList<>();
-        String path = "data.json";
+        String path = "src/main/resources/data.json";
 
         try {
             byte[] bytesFile = Files.readAllBytes(new File(path).toPath());
@@ -28,13 +30,14 @@ public class MedicalrecordsRepository {
             medicalrecordsAny.forEach(item -> medicalrecordsList.add(new Medicalrecords(
                     new Persons(item.get("firstName").toString(),
                         item.get("lastName").toString()),
-                    new Date(item.get("birthdate").toString()),
+                    item.get("birthdate").toString(),
                     item.get("medications").asList(),
                     item.get("allergies").asList()
             )));
             return medicalrecordsList;
 
         } catch (IOException e) {
+            logger.error("Failed to convert JSON file to Java Object", e);
             throw new RuntimeException(e);
         }
     }
