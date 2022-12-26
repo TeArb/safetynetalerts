@@ -28,14 +28,15 @@ public class FirestationsRepository {
             Any any = jsonIterator.readAny();
             Any firestationsAny = any.get("firestations");
 
-            firestationsAny.forEach(item -> firestationsList.add(new Firestations(
-                    item.get("address").toString(),
-                    item.get("station").toString()
+            firestationsAny.forEach(item -> firestationsList.add(
+                    new Firestations(
+                            item.get("address").toString(),
+                            item.get("station").toString()
             )));
             return firestationsList;
 
         } catch (IOException e) {
-            logger.error("Failed to convert JSON file to Java Object", e);
+            logger.error("Failed to convert JSON file for FirestationsRepository", e);
             throw new RuntimeException(e);
         }
     }
