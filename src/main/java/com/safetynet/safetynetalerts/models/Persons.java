@@ -23,11 +23,6 @@ public class Persons {
 
     private Medicalrecords medicalrecords;
 
-    public Persons(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

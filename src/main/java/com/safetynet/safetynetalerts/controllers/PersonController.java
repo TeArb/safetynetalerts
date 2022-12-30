@@ -24,12 +24,12 @@ public class PersonController {
     }
 
     @RequestMapping("/childAlert")
-        public List<PersonChildrenDTO> getChildrensByAddress(@RequestParam String address) {
+        public List<PersonChildrenDTO> getChildrensAddress(@RequestParam String address) {
         return personsService.getChildrensByAddress(address);
     }
 
     @RequestMapping("/phoneAlert")
-    public PersonPhoneNumbersDTO getPhoneNumbersByFirestation(@RequestParam String firestation) {
+    public List<String> getPhoneNumbersByFirestation(@RequestParam String firestation) {
         return personsService.getPhoneNumbersByFirestation(firestation);
     }
 
@@ -47,5 +47,10 @@ public class PersonController {
     public List<PersonInfoDTO> getPersonInfo(@RequestParam String firstName, String lastName) {
 
         return personsService.getPersonFirstNameLastName(firstName, lastName);
+    }
+
+    @RequestMapping("/communityEmail")
+    public List<String> getCommunityEmail(@RequestParam String city) {
+        return personsService.getEmailOfInhabitant(city);
     }
 }

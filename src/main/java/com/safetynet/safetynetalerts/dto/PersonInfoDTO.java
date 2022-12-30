@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.dto;
 
-import com.jsoniter.any.Any;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,6 +12,6 @@ public class PersonInfoDTO {
     private String address;
     private int age;
     private String email;
-    private List<Any> medication;
-    private List<Any> allergies;
+    private List<String> medication;
+    private List<String> allergies;
 }

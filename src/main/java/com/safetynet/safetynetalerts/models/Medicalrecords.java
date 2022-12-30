@@ -13,8 +13,8 @@ public class Medicalrecords {
     private String firstName;
     private String lastName;
     private Date birthdate;
-    private List<Any> medication;
-    private List<Any> allergies;
+    private List<String> medication = new ArrayList<>();
+    private List<String> allergies = new ArrayList<>();
 
     public Medicalrecords(String firstName, String lastName, String birthdate, List<Any> medication, List<Any> allergies) {
         this.firstName = firstName;
@@ -24,8 +24,8 @@ public class Medicalrecords {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.medication = medication;
-        this.allergies = allergies;
+        medication.forEach(medicationList -> this.medication.add(medicationList.toString()));
+        allergies.forEach(allergiesList -> this.allergies.add(allergiesList.toString()));
     }
 
     @Override

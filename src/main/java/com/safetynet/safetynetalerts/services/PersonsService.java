@@ -75,10 +75,10 @@ public class PersonsService {
         return resultChildrens;
     }
 
-    public PersonPhoneNumbersDTO getPhoneNumbersByFirestation(String firestationNumber) {
+    public List<String> getPhoneNumbersByFirestation(String firestationNumber) {
         List<Persons> personsList = this.personsRepository.getPersons();
-        List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream().filter(
-                station -> station.getStation().equals(firestationNumber)).toList();
+        List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream()
+                .filter(station -> station.getStation().equals(firestationNumber)).toList();
         List<String> resultPhoneNumbers = new ArrayList<>();
 
         if (!personsList.isEmpty()) {
@@ -92,7 +92,7 @@ public class PersonsService {
         } else {
             logger.error("Phone number by firestation is empty");
         }
-        return new PersonPhoneNumbersDTO(resultPhoneNumbers.toString());
+        return resultPhoneNumbers;
     }
 
     public List<PersonsAndStationDTO> getPersonsAndStationByAddress(String address) {
@@ -102,14 +102,13 @@ public class PersonsService {
                 .filter(station -> station.getAddress().equals(address)).toList();
         List<PersonsAndStationDTO> resultPersonsAndStation = new ArrayList<>();
 
-
         if (!personsList.isEmpty()) {
             personsList.forEach(
                     person -> firestationsList.forEach(
                             station -> resultPersonsAndStation.add(
                                     new PersonsAndStationDTO(person.getLastname(), person.getPhone(), person.getAge(),
-                                            person.getMedicalrecords().getMedication().toString(),
-                                            person.getMedicalrecords().getAllergies().toString(),
+                                            person.getMedicalrecords().getMedication(),
+                                            person.getMedicalrecords().getAllergies(),
                                             station.getStation())
                             )));
         } else {
@@ -123,15 +122,24 @@ public class PersonsService {
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations();
         List<PersonsServedByStationDTO> resultPersonsServedByStation = new ArrayList<>();
 
-        personsList.forEach(
-                person -> firestationsList.forEach(
-                        station -> {
-                            if (person.getAddress().equals(station.getAddress())) {
-                                resultPersonsServedByStation.add(new PersonsServedByStationDTO(person.getLastname(),
-                                        person.getPhone(), person.getAge(), person.getMedicalrecords().getMedication().toString(),
-                                        person.getMedicalrecords().getAllergies().toString()));
-                            }
-        }));
+        if (!personsList.isEmpty()) {
+            personsList.forEach(
+                    person -> firestationsList.forEach(
+                            station -> {
+                                String stationStr = station.getStation();
+
+                                if (person.getAddress().equals(station.getAddress())
+                                && stations.contains(stationStr)) {
+
+                                    resultPersonsServedByStation.add(new PersonsServedByStationDTO(person.getLastname(),
+                                            person.getPhone(), person.getAge(), station.getStation(),
+                                            person.getMedicalrecords().getMedication(),
+                                            person.getMedicalrecords().getAllergies()));
+                                }
+                            }));
+        } else {
+            logger.error("Persons served by station by address is empty");
+        }
         return resultPersonsServedByStation;
     }
 
@@ -139,14 +147,32 @@ public class PersonsService {
         List<Persons> personsList = this.personsRepository.getPersons();
         List<PersonInfoDTO> resultPersonInfoDTO = new ArrayList<>();
 
-        personsList.forEach(person -> {
-            if ((person.getFirstname().equals(firstName) && person.getLastname().equals(lastName)) || person.getLastname().equals(lastName)) {
-                resultPersonInfoDTO.add(new PersonInfoDTO(person.getLastname(), person.getAddress(),
-                        person.getAge(), person.getEmail(), person.getMedicalrecords().getMedication(),
-                        person.getMedicalrecords().getAllergies()));
-            }
-        });
-
+        if (!personsList.isEmpty()) {
+            personsList.forEach(person -> {
+                if ((person.getFirstname().equals(firstName) && person.getLastname().equals(lastName))
+                        || (!person.getFirstname().equals(firstName) && person.getLastname().equals(lastName))) {
+                    resultPersonInfoDTO.add(new PersonInfoDTO(person.getLastname(), person.getAddress(),
+                            person.getAge(), person.getEmail(), person.getMedicalrecords().getMedication(),
+                            person.getMedicalrecords().getAllergies()));
+                }
+            });
+        } else {
+            logger.error("Persons info is empty");
+        }
         return resultPersonInfoDTO;
+    }
+
+    public List<String> getEmailOfInhabitant(String city) {
+        List<Persons> personsList = this.personsRepository.getPersons().stream()
+                .filter(station -> station.getCity().equals(city)).toList();
+        List<String> resultEmails = new ArrayList<>();
+
+        if (!personsList.isEmpty()) {
+            personsList.forEach(
+                    person -> resultEmails.add(person.getEmail()));
+        } else {
+            logger.error("Email by inhabitant is empty");
+        }
+        return resultEmails;
     }
 }

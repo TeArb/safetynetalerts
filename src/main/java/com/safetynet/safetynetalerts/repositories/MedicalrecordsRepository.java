@@ -47,10 +47,5 @@ public class MedicalrecordsRepository {
         Optional<Medicalrecords> medicalrecordsOptional = getMedicalrecords().stream() .filter(
                 element -> element.getFirstName().equals(firstname) && element.getLastName().equals(lastname)).findFirst();
         return medicalrecordsOptional.orElseGet(() -> getOne(firstname, lastname));
-        /*
-        return getMedicalrecords().stream().filter(
-                element -> element.getFirstName().equals(firstname) && element.getLastName().equals(lastname)
-        ).findFirst().get();
-        */
     }
 }
