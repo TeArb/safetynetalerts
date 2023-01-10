@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
+
 @Data
 @AllArgsConstructor
-public class PersonAdultAndChildrenDTO {
-    private int childrenNumber;
-    private int adultNumber;
-    private List<Persons> personsList;
+public class ChildrenResidenceAddressDTO {
+    private String childrenFirstname;
+    private String childrenLastname;
+    private int childrenAge;
+    private List<Persons> householdMembers;
 }

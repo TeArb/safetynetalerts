@@ -7,11 +7,10 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PersonsAndStationDTO {
+public class HouseholdServedByStationDTO {
     private String lastname;
     private String phone;
     private int age;
     private List<String> medication;
     private List<String> allergies;
-    private String stationNumber;
 }

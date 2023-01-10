@@ -1,7 +1,6 @@
 package com.safetynet.safetynetalerts.controllers;
 
 import com.safetynet.safetynetalerts.dto.*;
-import com.safetynet.safetynetalerts.models.Firestations;
 import com.safetynet.safetynetalerts.services.PersonsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,38 +18,38 @@ public class PersonController {
     private PersonsService personsService;
 
     @RequestMapping("/firestation")
-    public PersonAdultAndChildrenDTO getPersonByStations(@RequestParam String stationNumber) {
-        return personsService.getPersonsByStationNumber(stationNumber);
+    public PersonCoveredByStationDTO getStationNumber(@RequestParam String stationNumber) {
+        return personsService.getPersonCoveredByStation(stationNumber);
     }
 
     @RequestMapping("/childAlert")
-        public List<PersonChildrenDTO> getChildrensAddress(@RequestParam String address) {
-        return personsService.getChildrensByAddress(address);
+        public List<ChildrenResidenceAddressDTO> getChildrensAddress(@RequestParam String address) {
+        return personsService.getChildrenResidenceAddress(address);
     }
 
     @RequestMapping("/phoneAlert")
-    public List<String> getPhoneNumbersByFirestation(@RequestParam String firestation) {
-        return personsService.getPhoneNumbersByFirestation(firestation);
+    public List<String> getFirestationNumber(@RequestParam String firestation) {
+        return personsService.getResidentPhoneNumber(firestation);
     }
 
     @RequestMapping("/fire")
-    public List<PersonsAndStationDTO> getPersonsAndStation(@RequestParam String address) {
-        return personsService.getPersonsAndStationByAddress(address);
+    public List<ResidentAddressAndStationNumberDTO> getResidentAddress(@RequestParam String address) {
+        return personsService.getResidentAddressAndStationNumber(address);
     }
 
     @RequestMapping("/flood/stations")
-    public List<PersonsServedByStationDTO> getPersonsServedByStation(@RequestParam List<String> stations) {
-        return personsService.getFirestationList(stations);
+    public List<HouseholdServedByStationDTO> getListOfStationNumber(@RequestParam String stations) {
+        return personsService.getHouseholdServedByStation(stations);
     }
 
     @RequestMapping("/personInfo")
-    public List<PersonInfoDTO> getPersonInfo(@RequestParam String firstName, String lastName) {
+    public List<InhabitantInfoDTO> getPersonFirstNameLastName(@RequestParam String firstName, String lastName) {
 
-        return personsService.getPersonFirstNameLastName(firstName, lastName);
+        return personsService.getInhabitantInfo(firstName, lastName);
     }
 
     @RequestMapping("/communityEmail")
-    public List<String> getCommunityEmail(@RequestParam String city) {
-        return personsService.getEmailOfInhabitant(city);
+    public List<String> getCity(@RequestParam String city) {
+        return personsService.getEmailInhabitantOfCity(city);
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PersonInfoDTO {
+public class InhabitantInfoDTO {
     private String lastname;
     private String address;
     private int age;
