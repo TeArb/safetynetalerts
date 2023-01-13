@@ -5,17 +5,36 @@ import com.safetynet.safetynetalerts.services.PersonsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/person")
 public class PersonController {
     private static final Logger logger = LogManager.getLogger("PersonController");
     @Autowired
     private PersonsService personsService;
+
+    @GetMapping
+    public String getPerson() {
+        return "getPerson";
+    }
+
+    @PostMapping
+    public String createPerson() {
+        return "createPerson";
+    }
+
+    @PutMapping
+    public String updatePerson() {
+        return "updatePerson";
+    }
+
+    @DeleteMapping
+    public String deletePerson() {
+        return "deletePerson";
+    }
 
     @RequestMapping("/firestation")
     public PersonCoveredByStationDTO getStationNumber(@RequestParam String stationNumber) {
@@ -44,7 +63,6 @@ public class PersonController {
 
     @RequestMapping("/personInfo")
     public List<InhabitantInfoDTO> getPersonFirstNameLastName(@RequestParam String firstName, String lastName) {
-
         return personsService.getInhabitantInfo(firstName, lastName);
     }
 
