@@ -55,10 +55,10 @@ public class Persons {
 
         LocalDate start = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         LocalDate stop = LocalDate.now(ZoneId.of("Europe/Paris"));
-
+/*
         int test = (int) ChronoUnit.YEARS.between(start, stop);
         System.out.println("" + test);
-
+*/
         return (int) ChronoUnit.YEARS.between(start, stop);
     }
 }

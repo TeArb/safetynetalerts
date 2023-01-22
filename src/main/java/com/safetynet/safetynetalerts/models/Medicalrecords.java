@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.models;
 
 import com.jsoniter.any.Any;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.text.ParseException;
@@ -8,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Data
-
+@AllArgsConstructor
 public class Medicalrecords {
     private String firstName;
     private String lastName;

@@ -16,8 +16,8 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class PersonsService {
-    private static final Logger logger = LogManager.getLogger("PersonsService");
+public class UrlsService {
+    private static final Logger logger = LogManager.getLogger("UrlsService");
     @Autowired
     private FirestationsRepository firestationsRepository;
     @Autowired

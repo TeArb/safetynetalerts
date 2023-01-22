@@ -17,7 +17,6 @@ import java.util.List;
 @Repository
 public class PersonsRepository {
     private static final Logger logger = LogManager.getLogger("PersonsRepository");
-
     @Autowired
     private MedicalrecordsRepository medicalrecordsRepository;
 

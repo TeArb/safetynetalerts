@@ -7,13 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class PersonControllerTest {
+class UrlsControllerTest {
 
     @Autowired
-    private PersonController PersonController;
+    private UrlsController UrlsController;
 
     @Test
     public void contextLoads() {
-        assertThat(PersonController).isNotNull();
+        assertThat(UrlsController).isNotNull();
     }
 }
