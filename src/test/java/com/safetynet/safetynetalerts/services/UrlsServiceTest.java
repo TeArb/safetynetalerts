@@ -1,6 +1,7 @@
 package com.safetynet.safetynetalerts.services;
 
 import com.safetynet.safetynetalerts.dto.*;
+import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,7 +95,7 @@ class UrlsServiceTest {
 
     @Test
     void getHouseholdServedByStation_Unknow() {
-        List<HouseholdServedByStationDTO> personsServedByStation = urlsService.getHouseholdServedByStation("1,2");
+        List<HouseholdServedByStationDTO> personsServedByStation = urlsService.getHouseholdServedByStation("5,6");
 
         assertEquals(new ArrayList<>(), personsServedByStation);
     }
@@ -116,7 +117,7 @@ class UrlsServiceTest {
 
     @Test
     void getEmailInhabitantOfCity() {
-        List<String> email = urlsService.getEmailInhabitantOfCity("Chicago");
+        List<String> email = urlsService.getEmailInhabitantOfCity("Culver");
 
         assertNotNull(email);
         assertNotEquals(new ArrayList<>(), email);

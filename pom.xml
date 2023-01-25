@@ -6,8 +6,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.5</version>
-		<relativePath/> <!-- lookup parent from repositories -->
+		<version>3.0.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.safetynet</groupId>
 	<artifactId>safetynetalerts</artifactId>
@@ -30,69 +30,53 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
-<!--Lombok-->
+<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
-<!--Log4j2-->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.19.0</version>
-		</dependency>
+<!-- Log4j2 -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>2.19.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-<!--Jsoniter-->
+<!-- Jsoniter -->
 		<dependency>
 			<groupId>com.jsoniter</groupId>
 			<artifactId>jsoniter</artifactId>
 			<version>0.9.23</version>
 		</dependency>
-<!--Jacoco-->
+<!-- Jacoco -->
 		<dependency>
 			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
+			<artifactId>org.jacoco.agent</artifactId>
 			<version>0.8.8</version>
+			<scope>test</scope>
 		</dependency>
-<!--Surefire-->
+<!-- Surefire -->
 		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>3.0.0-M7</version>
+			<groupId>org.apache.maven.surefire</groupId>
+			<artifactId>surefire-logger-api</artifactId>
+			<version>3.0.0-M8</version>
+			<scope>test</scope>
 		</dependency>
-<!--Checkstyle-->
+<!-- Checkstyle -->
 		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-checkstyle-plugin</artifactId>
-			<version>3.2.0</version>
+			<groupId>com.puppycrawl.tools</groupId>
+			<artifactId>checkstyle</artifactId>
+			<version>10.6.0</version>
 		</dependency>
-<!--Crud-->
+<!-- Crud -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
@@ -113,6 +97,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M8</version>
 			</plugin>
 		</plugins>
 	</build>

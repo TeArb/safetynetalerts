@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.services;
+package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.models.Firestations;

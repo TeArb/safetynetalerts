@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.controllers;
 
 import com.safetynet.safetynetalerts.dto.*;
-import com.safetynet.safetynetalerts.services.UrlsService;
+import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
