@@ -1,12 +1,23 @@
 package com.safetynet.safetynetalerts.repositories;
 
 import com.safetynet.safetynetalerts.models.Firestations;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-@Configuration
-public interface IFirestationsRepository extends CrudRepository<Firestations, Long> {
+public class IFirestationsRepository {
+    @Autowired
+    private FirestationsRepository firestationsRepository;
+
+    public Firestations addF (Firestations firestations) {
+        List<Firestations> firestationsList = firestationsRepository.getFirestations();
+        firestationsList.add(firestations);
+        return firestations;
+    }
+
+
+
 }

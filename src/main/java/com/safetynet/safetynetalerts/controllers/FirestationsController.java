@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/firestation")
+@RequestMapping("/firestations")
 @AllArgsConstructor
 public class FirestationsController {
     private static final Logger logger = LogManager.getLogger("FirestationsController");

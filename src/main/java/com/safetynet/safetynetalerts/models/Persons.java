@@ -9,7 +9,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
-
+/**
+ * Contains method to get/set a person's info.
+ *
+ * @author Terry
+ */
 @Data
 @AllArgsConstructor
 public class Persons {
@@ -20,9 +24,11 @@ public class Persons {
     private String zip;
     private String phone;
     private String email;
-
     private Medicalrecords medicalrecords;
-
+    /**
+     * Compare Person Objects to see if they are of the same type.
+     *
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,6 +55,10 @@ public class Persons {
                 '}';
     }
 
+    /**
+     * Allows to have the age of a person with the birthdate.
+     *
+     */
     public int getAge() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         cal.setTime(this.medicalrecords.getBirthdate());
