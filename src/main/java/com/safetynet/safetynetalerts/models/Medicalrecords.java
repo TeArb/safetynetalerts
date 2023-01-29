@@ -7,9 +7,8 @@ import lombok.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 /**
- * Contains method to get/set a medical record's info.
+ * Contains constructor and  method to get/set a medical record's info.
  *
  * @author Terry
  */
@@ -22,7 +21,7 @@ public class Medicalrecords {
     private List<String> medication = new ArrayList<>();
     private List<String> allergies = new ArrayList<>();
     /**
-     * Constructor to initialize the medical record's arg
+     * Constructor for initialize the medical record's arg.
      *
      */
     public Medicalrecords(String firstName, String lastName, String birthdate, List<Any> medication, List<Any> allergies) {

@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.TimeZone;
 /**
- * Contains method to get/set a person's info.
+ * Contains constructor and  method to get/set a person's info.
  *
  * @author Terry
  */

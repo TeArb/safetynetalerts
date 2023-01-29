@@ -13,23 +13,32 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Method to get the persons info's from JSON file.
+ *
+ */
 @Repository
 public class PersonsRepository {
     private static final Logger logger = LogManager.getLogger("PersonsRepository");
     @Autowired
     private MedicalrecordsRepository medicalrecordsRepository;
-
+    /**
+     * Method to get the persons info's from JSON file.
+     *
+     */
     public List<Persons> getPersons() {
         List<Persons> personsList = new ArrayList<>();
         String path = "src/main/resources/data.json";
 
         try {
+            // Write into binary format.
             byte[] bytesFile = Files.readAllBytes(new File(path).toPath());
+            // Convert and read the binary format.
             JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
             Any any = jsonIterator.readAny();
             Any personsAny = any.get("persons");
 
+            // Read through persons list to add string.
             personsAny.forEach(item -> personsList.add(new Persons(
                     item.get("firstName").toString(),
                     item.get("lastName").toString(),
@@ -38,6 +47,7 @@ public class PersonsRepository {
                     item.get("zip").toString(),
                     item.get("phone").toString(),
                     item.get("email").toString(),
+                    // To add medical record info's according to people names.
                     medicalrecordsRepository.getOne(item.get("firstName").toString(),
                             item.get("lastName").toString())
             )));

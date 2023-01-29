@@ -3,7 +3,7 @@ package com.safetynet.safetynetalerts.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 /**
- * Contains method to get/set a fire station's info.
+ * Contains constructor and  method to get/set a fire station's info.
  *
  * @author Terry
  */

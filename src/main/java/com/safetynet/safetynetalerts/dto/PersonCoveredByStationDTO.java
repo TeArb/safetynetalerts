@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 /**
- * Contains constructor to initialize the args of the class
+ * Contains constructor for initialize the args of "PersonCoveredByStationDTO".
  *
  * @author Terry
  */
