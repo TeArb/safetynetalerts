@@ -38,7 +38,7 @@ public class FirestationsRepository {
             Any any = jsonIterator.readAny();
             Any firestationsAny = any.get("firestations");
 
-            // Read through fire stations list to add string.
+            // Add json string to the list.
             firestationsAny.forEach(item -> firestationsList.add(
                     new Firestations(
                             item.get("address").toString(),

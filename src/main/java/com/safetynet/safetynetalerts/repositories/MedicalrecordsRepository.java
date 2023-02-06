@@ -36,7 +36,7 @@ public class MedicalrecordsRepository {
             Any any = jsonIterator.readAny();
             Any medicalrecordsAny = any.get("medicalrecords");
 
-            // Read through medical records list to add string.
+            // Add json string to the list.
             medicalrecordsAny.forEach(item -> medicalrecordsList.add(
                     new Medicalrecords(
                             item.get("firstName").toString(),
@@ -57,7 +57,7 @@ public class MedicalrecordsRepository {
      *
      */
     public Medicalrecords getOne(String firstname, String lastname) {
-        Optional<Medicalrecords> medicalrecordsOptional = getMedicalrecords().stream() .filter(
+        Optional<Medicalrecords> medicalrecordsOptional = getMedicalrecords().stream().filter(
                 element -> element.getFirstName().equals(firstname) && element.getLastName().equals(lastname)).findFirst();
         return medicalrecordsOptional.orElseGet(() -> getOne(firstname, lastname));
     }

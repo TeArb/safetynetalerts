@@ -38,7 +38,7 @@ public class PersonsRepository {
             Any any = jsonIterator.readAny();
             Any personsAny = any.get("persons");
 
-            // Read through persons list to add string.
+            // Add json string to the list.
             personsAny.forEach(item -> personsList.add(new Persons(
                     item.get("firstName").toString(),
                     item.get("lastName").toString(),

@@ -1,6 +1,5 @@
 package com.safetynet.safetynetalerts.controllers;
 
-import com.safetynet.safetynetalerts.dto.OldAndNewFirestationsDTO;
 import com.safetynet.safetynetalerts.models.Firestations;
 import com.safetynet.safetynetalerts.servicesImplement.FirestationsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -37,17 +36,16 @@ public class FirestationsController {
      *
      */
     @PostMapping("/")
-    public Firestations addFirestations(@RequestBody Firestations newFirestations) {
+    public List<Firestations> addFirestations(@RequestBody Firestations newFirestations) {
         return firestationsServiceImpl.addFirestations(newFirestations);
     }
     /**
      * Method to put a fire station.
      *
      */
-    @PutMapping("/")
-    public Firestations updateFirestations(@RequestBody @NotNull OldAndNewFirestationsDTO oldNewFirestations) {
-        return firestationsServiceImpl.updateFirestations(oldNewFirestations.getOldFirestations(),
-                oldNewFirestations.getNewFirestations());
+    @PutMapping("/{address}")
+    public List<Firestations> updateFirestations(@RequestBody @NotNull Firestations newFirestations, @PathVariable String address) {
+        return firestationsServiceImpl.updateFirestations(newFirestations, address);
     }
     /**
      * Method to delete a fire station.

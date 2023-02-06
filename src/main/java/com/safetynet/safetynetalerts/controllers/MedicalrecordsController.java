@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class MedicalrecordsController {
     private static final Logger logger = LogManager.getLogger("MedicalrecordsController");
-
+/*
     @Autowired
     private MedicalrecordsServiceImpl medicalrecordsServiceImpl;
     /**
      * Method to get a medical records.
      *
      */
+
 }
