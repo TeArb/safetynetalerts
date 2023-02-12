@@ -13,7 +13,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UrlsServiceTest {
+class UrlsServiceFirstNameAndLastName {
     @Autowired
     private UrlsService urlsService;
 

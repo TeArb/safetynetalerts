@@ -19,7 +19,7 @@ public class FirestationsServiceImplProvider {
      *
      */
     public List<Firestations> getFirestations() {
-        logger.info("Firestations got");
+        logger.info("Fire stations got");
         return this.firestationsRepository.getFirestations();
     }
     /**

@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class FirestationsControllerTest {
+class FirestationsControllerFirstNameAndLastName {
     @MockBean
     protected FirestationsServiceImpl firestationsServiceImpl;
     @Autowired

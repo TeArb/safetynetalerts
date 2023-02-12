@@ -11,6 +11,6 @@ import java.util.List;
 public interface IFirestationsService {
     List<Firestations> getFirestations();
     List<Firestations> addFirestations(Firestations newFirestations);
-    List<Firestations> updateFirestations (Firestations NewFirestations, String address);
+    List<Firestations> updateFirestations(Firestations NewFirestations, String address);
     String deleteFirestations(Firestations removeFirestations);
 }

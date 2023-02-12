@@ -3,10 +3,14 @@ package com.safetynet.safetynetalerts.models;
 import com.jsoniter.any.Any;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 /**
  * Contains constructor and  method to get/set a medical record's info.
  *
@@ -14,6 +18,7 @@ import java.util.*;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Medicalrecords {
     private String firstName;
     private String lastName;
