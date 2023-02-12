@@ -26,7 +26,7 @@ public class Persons {
     private String email;
     private Medicalrecords medicalrecords;
     /**
-     * Compare Person Objects to see if they are of the same type.
+     * Compare Person Objects to see if they are of the same type for the firstname and lastname.
      *
      */
     @Override
@@ -56,7 +56,7 @@ public class Persons {
     }
 
     /**
-     * Allows to have the age of a person with the birthdate.
+     * Allows to have the age of a person form the birthdate.
      *
      */
     public int getAge() {

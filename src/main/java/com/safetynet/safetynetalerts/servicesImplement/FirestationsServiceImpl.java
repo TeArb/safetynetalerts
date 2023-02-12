@@ -9,20 +9,29 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FirestationsServiceImpl implements IFirestationsService  {
+public class FirestationsServiceImpl implements IFirestationsService {
     @Autowired
     private FirestationsServiceImplProvider firestationsServiceImplProvider;
     private static List<Firestations> firestationsList;
 
+    /**
+     * Set static the fire station list.
+     */
     public void setUp() {
-        firestationsList = firestationsServiceImplProvider.getFirestations();
+            firestationsList = firestationsServiceImplProvider.getFirestations();
     }
 
+    /**
+     * Get the method to get a fire station list.
+     */
     public List<Firestations> getFirestations() {
         setUp();
         return firestationsList;
     }
 
+    /**
+     * Get the method to add a fire station list.
+     */
     public List<Firestations> addFirestations(Firestations newFirestations) {
         setUp();
         firestationsList.add(firestationsServiceImplProvider.addFirestations(newFirestations));
@@ -30,6 +39,9 @@ public class FirestationsServiceImpl implements IFirestationsService  {
         return firestationsList;
     }
 
+    /**
+     * Get the method to update a fire station.
+     */
     @Override
     public List<Firestations> updateFirestations(Firestations newFirestations, String address) {
         setUp();
@@ -40,6 +52,9 @@ public class FirestationsServiceImpl implements IFirestationsService  {
         return firestationsList;
     }
 
+    /**
+     * Get the method to delete a fire station.
+     */
     @Override
     public String deleteFirestations(Firestations removeFirestations) {
         return this.firestationsServiceImplProvider.deleteFirestations(removeFirestations);

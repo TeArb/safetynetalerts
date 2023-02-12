@@ -7,6 +7,7 @@ import com.safetynet.safetynetalerts.repositories.FirestationsRepository;
 import com.safetynet.safetynetalerts.repositories.PersonsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -149,7 +150,7 @@ public class UrlsService {
      * Method to get the household served by fire station.
      *
      */
-    public List<HouseholdServedByStationDTO> getHouseholdServedByStation(String stations) {
+    public List<HouseholdServedByStationDTO> getHouseholdServedByStation(@NotNull String stations) {
         // Line break after each comma.
         String[] stationNumber = stations.split(",");
         List<Persons> personsList = this.personsRepository.getPersons();
