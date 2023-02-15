@@ -17,7 +17,7 @@ import java.util.List;
  * @author Terry
  */
 @RestController
-@RequestMapping("/medicalrecords")
+@RequestMapping("/medicalrecord")
 @AllArgsConstructor
 public class MedicalrecordsController {
     private static final Logger logger = LogManager.getLogger("MedicalrecordsController");

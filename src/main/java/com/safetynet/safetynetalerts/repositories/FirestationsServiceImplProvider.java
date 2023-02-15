@@ -15,7 +15,7 @@ public class FirestationsServiceImplProvider {
     @Autowired
     private FirestationsRepository firestationsRepository;
     /**
-     * Get a fire station list.
+     * Get a fire stations list.
      *
      */
     public List<Firestations> getFirestations() {
@@ -28,10 +28,10 @@ public class FirestationsServiceImplProvider {
      */
     public Firestations addFirestations(@NotNull Firestations newFirestations) {
         List<Firestations> firestationsList = firestationsRepository.getFirestations();
-        boolean firestationsExsits = firestationsList.stream().anyMatch(newFirestations::equals);
+        boolean firestationsExists = firestationsList.stream().anyMatch(newFirestations::equals);
 
         // Added a non-existing fire station.
-        if (!firestationsExsits) {
+        if (!firestationsExists) {
             firestationsList.add(newFirestations);
             logger.info("Fire stations added");
         } else {
@@ -47,11 +47,11 @@ public class FirestationsServiceImplProvider {
     public Firestations updateFirestations(Firestations newFirestations, String address) {
         List<Firestations> firestationsList = firestationsRepository.getFirestations();
         // Checks that address of the fire station is in the list.
-        boolean addressExsits = firestationsList.stream().anyMatch(firestations
-                -> address.equals(firestations.getAddress()));
+        boolean addressExist = firestationsList.stream().anyMatch(firestation
+                -> address.equals(firestation.getAddress()));
 
         // Update the fire station present in the list.
-        if (addressExsits) {
+        if (addressExist) {
             // Run through the fire station list to modify an existing address
             firestationsList.forEach(firestation -> {
                 if (firestation.getAddress().equals(address)) {

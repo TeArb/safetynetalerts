@@ -28,12 +28,12 @@ public class MedicalrecordsServiceImplProvider {
     public Medicalrecords addMedicalrecords(Medicalrecords newMedicalrecords) {
         List<Medicalrecords> medicalrecordsList = medicalrecordsRepository.getMedicalrecords();
         // Checks that firstName and lastName of the medical records is in the list.
-        boolean firstName_LastNameExsits = medicalrecordsList.stream().anyMatch(medicalrecords
+        boolean firstName_LastNameExists = medicalrecordsList.stream().anyMatch(medicalrecords
                 -> newMedicalrecords.getFirstName().equals(medicalrecords.getFirstName())
                 && newMedicalrecords.getLastName().equals(medicalrecords.getLastName()));
 
         // Added a non-existing medical records.
-        if (!firstName_LastNameExsits) {
+        if (!firstName_LastNameExists) {
             medicalrecordsList.add(newMedicalrecords);
             logger.info("Medical records added");
         } else {
@@ -50,19 +50,19 @@ public class MedicalrecordsServiceImplProvider {
         List<Medicalrecords> medicalrecordsList = medicalrecordsRepository.getMedicalrecords();
 
         // Checks that firstName and lastName of the medical records is in the list.
-        boolean firstName_LastNameExsits = medicalrecordsList.stream().anyMatch(medicalrecords
-                -> firstName.equals(medicalrecords.getFirstName())
-                && lastName.equals(medicalrecords.getLastName()));
+        boolean firstName_LastNameExists = medicalrecordsList.stream().anyMatch(medicalrecord
+                -> firstName.equals(medicalrecord.getFirstName())
+                && lastName.equals(medicalrecord.getLastName()));
 
         // Update the medical records present in the list.
-        if (firstName_LastNameExsits) {
+        if (firstName_LastNameExists) {
             // Run through the medical records list to modify an existing firstName and lastName
-            medicalrecordsList.forEach(medicalrecords -> {
+            medicalrecordsList.forEach(medicalrecord -> {
                 /*if (medicalrecords.getFirstName().equals(firstName_LastNameExsits)
                         && medicalrecords.getLastName().equals(firstName_LastNameExsits)) {*/
-                    medicalrecords.setBirthdate(newMedicalrecords.getBirthdate());
-                    medicalrecords.setMedication(newMedicalrecords.getMedication());
-                    medicalrecords.setAllergies(newMedicalrecords.getAllergies());
+                    medicalrecord.setBirthdate(newMedicalrecords.getBirthdate());
+                    medicalrecord.setMedication(newMedicalrecords.getMedication());
+                    medicalrecord.setAllergies(newMedicalrecords.getAllergies());
                 });
             logger.info("Medical records updated");
         } else{
@@ -79,12 +79,12 @@ public class MedicalrecordsServiceImplProvider {
         List<Medicalrecords> medicalrecordsList = medicalrecordsRepository.getMedicalrecords();
         int index = medicalrecordsList.indexOf(removeMedicalrecords);
         // Checks that firstName and lastName of the medical records is in the list.
-        boolean firstName_LastNameExsits = medicalrecordsList.stream().anyMatch(medicalrecords
-                -> firstName.equals(medicalrecords.getFirstName())
-                && lastName.equals(medicalrecords.getLastName()));
+        boolean firstName_LastNameExists = medicalrecordsList.stream().anyMatch(medicalrecord
+                -> firstName.equals(medicalrecord.getFirstName())
+                && lastName.equals(medicalrecord.getLastName()));
 
         // Remove the medical records present in the list.
-        if (firstName_LastNameExsits && (index > -1)) {
+        if (firstName_LastNameExists && (index > -1)) {
             medicalrecordsList.remove(removeMedicalrecords);
             logger.info("Medical records deleted");
             return "Medical records deleted";

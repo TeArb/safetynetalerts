@@ -39,10 +39,12 @@ public class UrlsService {
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream()
                 .filter(firestation -> firestation.getStation().equals(stationNumber)).toList();
         List<Persons> resultPersonStations = new ArrayList<>();
+        boolean stationNumberExist = firestationsList.stream().anyMatch(station
+                -> stationNumber.equals(station.getStation()));
         childrenNumber = 0;
         adultNumber = 0;
 
-        if (!firestationsList.isEmpty()) {
+        if (!firestationsList.isEmpty() && stationNumberExist) {
             // Run through firestationsList and personsList.
             firestationsList.forEach(
                     station -> personsList.forEach(
@@ -63,6 +65,10 @@ public class UrlsService {
         } else {
             logger.error("Person covered by station is empty");
         }
+
+        if (!stationNumberExist) {
+            logger.error("Station number don't exist");
+        }
         return new PersonCoveredByStationDTO(adultNumber, childrenNumber, resultPersonStations);
     }
     /**
@@ -74,21 +80,28 @@ public class UrlsService {
         List<Persons> personsList = this.personsRepository.getPersons().stream()
                 .filter(person -> person.getAddress().equals(address) && person.getAge() <= 18).toList();
         List<ChildrenResidenceAddressDTO> resultChildrensAddress = new ArrayList<>();
+        boolean addressExist = personsList.stream().anyMatch(person
+                -> address.equals(person.getAddress()));
 
-        if (!personsList.isEmpty()) {
+        if (!personsList.isEmpty() && addressExist) {
             // Run through personsList.
             personsList.forEach(
                     person -> {
-                        // Adds people whose lastnames are the same as children.
-                        List<Persons> householdMembers = this.personsRepository.getPersons().stream()
-                                .filter(household -> household.getLastname().equals(person.getLastname())
-                                        && !household.getFirstname().equals(person.getFirstname())
-                        ).collect(toList());
-                        resultChildrensAddress.add(new ChildrenResidenceAddressDTO(person.getFirstname(), person.getLastname(),
-                                person.getAge(), householdMembers));
-                    });
+                        if (person.getAddress().equals(address)) {
+                            // Adds people whose lastnames are the same as children.
+                            List<Persons> householdMembers = this.personsRepository.getPersons().stream()
+                                    .filter(household -> household.getLastname().equals(person.getLastname())
+                                            && !household.getFirstname().equals(person.getFirstname())
+                                    ).collect(toList());
+                            resultChildrensAddress.add(new ChildrenResidenceAddressDTO(person.getFirstname(), person.getLastname(),
+                                    person.getAge(), householdMembers));
+                        }});
         } else {
             logger.error("Children residence address is empty");
+        }
+
+        if (!addressExist) {
+            logger.error("Address don't exist");
         }
         return resultChildrensAddress;
     }
@@ -102,8 +115,10 @@ public class UrlsService {
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream()
                 .filter(station -> station.getStation().equals(firestationNumber)).toList();
         List<String> resultPhoneNumbers = new ArrayList<>();
+        boolean firestationNumberExist = firestationsList.stream().anyMatch(firestation
+                -> firestationNumber.equals(firestation.getStation()));
 
-        if (!personsList.isEmpty()) {
+        if (!personsList.isEmpty() && firestationNumberExist) {
             // Run through personsList and firestationsList.
             personsList.forEach(
                     person -> firestationsList.forEach(
@@ -115,6 +130,10 @@ public class UrlsService {
                             }));
         } else {
             logger.error("Resident phone number is empty");
+        }
+
+        if (!firestationNumberExist) {
+            logger.error("Fire station number don't exist");
         }
         return resultPhoneNumbers;
     }
@@ -130,8 +149,10 @@ public class UrlsService {
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations().stream()
                 .filter(station -> station.getAddress().equals(address)).toList();
         List<ResidentAddressAndStationNumberDTO> resultResidentAndStation = new ArrayList<>();
+        boolean addressExist = personsList.stream().anyMatch(person
+                -> address.equals(person.getAddress()));
 
-        if (!personsList.isEmpty()) {
+        if (!personsList.isEmpty() && addressExist) {
             // Run through personsList and firestationsList.
             personsList.forEach(
                     person -> firestationsList.forEach(
@@ -143,6 +164,10 @@ public class UrlsService {
                             )));
         } else {
             logger.error("Resident address and station number is empty");
+        }
+
+        if (!addressExist) {
+            logger.error("Resident address don't exist");
         }
         return resultResidentAndStation;
     }
@@ -157,6 +182,8 @@ public class UrlsService {
         List<Firestations> firestationsList = this.firestationsRepository.getFirestations();
         List<HouseholdServedByStationDTO> resultHouseholdServedByStation = new ArrayList<>();
         List<Firestations> resultHouseholdStation = new ArrayList<>();
+        boolean stationsExist = firestationsList.stream().anyMatch(station
+                -> stations.equals(station.getStation()));
 
         for (String s : stationNumber) {
             firestationsList.forEach(station -> {
@@ -166,7 +193,7 @@ public class UrlsService {
                 }
             });
         }
-        if (!resultHouseholdStation.isEmpty()) {
+        if (!resultHouseholdStation.isEmpty() && stationsExist) {
             // Run through "resultHouseholdStation" list and personsList.
             resultHouseholdStation.forEach(station -> personsList.forEach(person -> {
                 // Add the info whose addresses of the people are equal to those of the stations.
@@ -179,6 +206,10 @@ public class UrlsService {
         } else {
             logger.error("Household served by station is empty");
         }
+
+        if (!stationsExist) {
+            logger.error("Some stations don't exists");
+        }
         return resultHouseholdServedByStation;
     }
     /**
@@ -188,8 +219,10 @@ public class UrlsService {
     public List<InhabitantInfoDTO> getInhabitantInfo(String firstName, String lastName) {
         List<Persons> personsList = this.personsRepository.getPersons();
         List<InhabitantInfoDTO> resultInhabitantInfoDTO = new ArrayList<>();
+        boolean firstNameLastNameExists = personsList.stream().anyMatch(person
+                -> firstName.equals(person.getFirstname()) && lastName.equals(person.getLastname()));
 
-        if (!personsList.isEmpty()) {
+        if (!personsList.isEmpty() && firstNameLastNameExists) {
             // Run through personsList.
             personsList.forEach(person -> {
                 // Add the info whose firstName and lastName of the people are equal to the input.
@@ -203,6 +236,10 @@ public class UrlsService {
         } else {
             logger.error("InhabitantInfo is empty");
         }
+
+        if (!firstNameLastNameExists) {
+            logger.error("Firstname or lastname don't exists");
+        }
         return resultInhabitantInfoDTO;
     }
     /**
@@ -213,13 +250,19 @@ public class UrlsService {
         List<Persons> personsList = this.personsRepository.getPersons().stream()
                 .filter(station -> station.getCity().equals(city)).toList();
         List<String> resultEmails = new ArrayList<>();
+        boolean cityExist = personsList.stream().anyMatch(person
+                -> city.equals(person.getCity()));
 
-        if (!personsList.isEmpty()) {
+        if (!personsList.isEmpty() && cityExist) {
             // Run through personsList and add email to the empty list.
             personsList.forEach(
                     person -> resultEmails.add(person.getEmail()));
         } else {
             logger.error("Email Inhabitant Of City is empty");
+        }
+
+        if (!cityExist) {
+            logger.error("City don't exist");
         }
         return resultEmails;
     }

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Terry
  */
 @RestController
-@RequestMapping("/firestations")
+@RequestMapping("/firestation")
 @AllArgsConstructor
 public class FirestationsController {
     private static final Logger logger = LogManager.getLogger("FirestationsController");
