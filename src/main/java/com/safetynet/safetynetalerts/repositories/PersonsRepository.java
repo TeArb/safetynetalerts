@@ -21,7 +21,7 @@ import java.util.List;
 public class PersonsRepository {
     private static final Logger logger = LogManager.getLogger("PersonsRepository");
     @Autowired
-    private MedicalrecordsRepository medicalrecordsRepository;
+    private MedicalRecordsRepository medicalRecordsRepository;
     /**
      * Method to get the persons info's from JSON file.
      *
@@ -48,7 +48,7 @@ public class PersonsRepository {
                     item.get("phone").toString(),
                     item.get("email").toString(),
                     // To add medical record info's according to people names.
-                    medicalrecordsRepository.getOne(item.get("firstName").toString(),
+                    medicalRecordsRepository.getOne(item.get("firstName").toString(),
                             item.get("lastName").toString())
             )));
             return personsList;

@@ -46,8 +46,8 @@ public class PersonsServiceImpl implements IPersonsService {
     public List<Persons> updatePersons(Persons newPersons, String firstName, String lastName) {
         setUp();
         personsList.remove(personsList.stream()
-                .filter(person -> person.getFirstname().equals(firstName)
-                        && person.getLastname().equals(lastName))
+                .filter(person -> person.getFirstName().equals(firstName)
+                        && person.getLastName().equals(lastName))
                 .findFirst().orElse(null));
         personsList.add(this.personsServiceImplProvider
                 .updatePersons(newPersons, firstName, lastName));

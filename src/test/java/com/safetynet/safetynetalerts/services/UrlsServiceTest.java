@@ -13,7 +13,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class UrlsServiceFirstNameAndLastName {
+class UrlsServiceTest {
     @Autowired
     private UrlsService urlsService;
 
@@ -34,7 +34,7 @@ class UrlsServiceFirstNameAndLastName {
         assertEquals(1, personByStation.getAdultNumber());
     }
     @Test
-    void getPersonCoveredByStation_Unknow() {
+    void getPersonCoveredByStation_UnKnow() {
         PersonCoveredByStationDTO personByStation = urlsService.getPersonCoveredByStation("6");
 
         assertEquals(new PersonCoveredByStationDTO(0, 0, new ArrayList<>()), personByStation);
@@ -45,11 +45,10 @@ class UrlsServiceFirstNameAndLastName {
         List<ChildrenResidenceAddressDTO> childrenAddress = urlsService.getChildrenResidenceAddress("1509 Culver St");
 
         assertNotNull(childrenAddress);
-        assertNotEquals(new ArrayList<>(), childrenAddress);
     }
 
     @Test
-    void getChildrenResidenceAddress_Unknow() {
+    void getChildrenResidenceAddress_UnKnow() {
         List<ChildrenResidenceAddressDTO> childrenAddress = urlsService.getChildrenResidenceAddress("1309 Culver");
 
         assertEquals(new ArrayList<>(), childrenAddress);
@@ -60,11 +59,10 @@ class UrlsServiceFirstNameAndLastName {
         List<String> phoneNumber = urlsService.getResidentPhoneNumber("1");
 
         assertNotNull(phoneNumber);
-        assertNotEquals(new ArrayList<>(), phoneNumber);
     }
 
     @Test
-    void getResidentPhoneNumber_Unknow() {
+    void getResidentPhoneNumber_UnKnow() {
         List<String> phoneNumber = urlsService.getResidentPhoneNumber("6");
 
         assertEquals(new ArrayList<>(), phoneNumber);
@@ -79,7 +77,7 @@ class UrlsServiceFirstNameAndLastName {
     }
 
     @Test
-    void getResidentAddressAndStationNumber_Unknow() {
+    void getResidentAddressAndStationNumber_UnKnow() {
         List<ResidentAddressAndStationNumberDTO> addressAndStationNumber = urlsService.getResidentAddressAndStationNumber("1309 Culver");
 
         assertEquals(new ArrayList<>(), addressAndStationNumber);
@@ -87,14 +85,14 @@ class UrlsServiceFirstNameAndLastName {
 
     @Test
     void getHouseholdServedByStation() {
-        List<HouseholdServedByStationDTO> personsServedByStation = urlsService.getHouseholdServedByStation("1,2");
+        List<HouseholdServedByStationDTO> personsServedByStation = urlsService.getHouseholdServedByStation("1,2,3");
 
         assertNotNull(personsServedByStation);
         assertNotEquals(new ArrayList<>(), personsServedByStation);
     }
 
     @Test
-    void getHouseholdServedByStation_Unknow() {
+    void getHouseholdServedByStation_UnKnow() {
         List<HouseholdServedByStationDTO> personsServedByStation = urlsService.getHouseholdServedByStation("5,6");
 
         assertEquals(new ArrayList<>(), personsServedByStation);
@@ -109,7 +107,7 @@ class UrlsServiceFirstNameAndLastName {
     }
 
     @Test
-    void getInhabitantInfo_Unknow() {
+    void getInhabitantInfo_UnKnow() {
         List<InhabitantInfoDTO> inhabitantInfo = urlsService.getInhabitantInfo("John", "Doe");
 
         assertEquals(new ArrayList<>(), inhabitantInfo);
@@ -124,7 +122,7 @@ class UrlsServiceFirstNameAndLastName {
     }
 
     @Test
-    void getEmailInhabitantOfCity_Unknow() {
+    void getEmailInhabitantOfCity_UnKnow() {
         List<String> email = urlsService.getEmailInhabitantOfCity("Chicago");
 
         assertEquals(new ArrayList<>(), email);

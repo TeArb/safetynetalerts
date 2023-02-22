@@ -13,8 +13,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class ChildrenResidenceAddressDTO {
-    private String childrenFirstname;
-    private String childrenLastname;
+    private String childrenFirstName;
+    private String childrenLastName;
     private int childrenAge;
     private List<Persons> householdMembers;
 }

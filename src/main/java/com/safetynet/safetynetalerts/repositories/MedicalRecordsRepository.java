@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.repositories;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalerts.models.Medicalrecords;
+import com.safetynet.safetynetalerts.models.MedicalRecords;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -18,14 +18,14 @@ import java.util.Optional;
  *
  */
 @Repository
-public class MedicalrecordsRepository {
-    private static final Logger logger = LogManager.getLogger("MedicalrecordsRepository");
+public class MedicalRecordsRepository {
+    private static final Logger logger = LogManager.getLogger("MedicalRecordsRepository");
     /**
      * Method to get the medical records info's from JSON file.
      *
      */
-    public List<Medicalrecords> getMedicalrecords() {
-        List<Medicalrecords> medicalrecordsList = new ArrayList<>();
+    public List<MedicalRecords> getMedicalRecords() {
+        List<MedicalRecords> medicalRecordsList = new ArrayList<>();
         String path = "src/main/resources/data.json";
 
         try {
@@ -34,21 +34,21 @@ public class MedicalrecordsRepository {
             // Convert and read the binary format.
             JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
             Any any = jsonIterator.readAny();
-            Any medicalrecordsAny = any.get("medicalrecords");
+            Any medicalRecordsAny = any.get("medicalrecords");
 
             // Add json string to the list.
-            medicalrecordsAny.forEach(item -> medicalrecordsList.add(
-                    new Medicalrecords(
+            medicalRecordsAny.forEach(item -> medicalRecordsList.add(
+                    new MedicalRecords(
                             item.get("firstName").toString(),
                             item.get("lastName").toString(),
                             item.get("birthdate").toString(),
                             item.get("medications").asList(),
                             item.get("allergies").asList()
             )));
-            return medicalrecordsList;
+            return medicalRecordsList;
 
         } catch (IOException e) {
-            logger.error("Failed to convert JSON file MedicalrecordsRepository", e);
+            logger.error("Failed to convert JSON file MedicalRecordsRepository", e);
             throw new RuntimeException(e);
         }
     }
@@ -56,9 +56,9 @@ public class MedicalrecordsRepository {
      * Method to filter the medical records info's from JSON file.
      *
      */
-    public Medicalrecords getOne(String firstname, String lastname) {
-        Optional<Medicalrecords> medicalrecordsOptional = getMedicalrecords().stream().filter(
-                element -> element.getFirstName().equals(firstname) && element.getLastName().equals(lastname)).findFirst();
-        return medicalrecordsOptional.orElseGet(() -> getOne(firstname, lastname));
+    public MedicalRecords getOne(String firstName, String lastName) {
+        Optional<MedicalRecords> medicalRecordsOptional = getMedicalRecords().stream().filter(
+                element -> element.getFirstName().equals(firstName) && element.getLastName().equals(lastName)).findFirst();
+        return medicalRecordsOptional.orElseGet(() -> getOne(firstName, lastName));
     }
 }

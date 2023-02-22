@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.controllers;
 
-import com.safetynet.safetynetalerts.models.Medicalrecords;
-import com.safetynet.safetynetalerts.servicesImplement.MedicalrecordsServiceImpl;
+import com.safetynet.safetynetalerts.models.MedicalRecords;
+import com.safetynet.safetynetalerts.servicesImplement.MedicalRecordsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,44 +19,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/medicalrecord")
 @AllArgsConstructor
-public class MedicalrecordsController {
-    private static final Logger logger = LogManager.getLogger("MedicalrecordsController");
+public class MedicalRecordsController {
+    private static final Logger logger = LogManager.getLogger("MedicalRecordsController");
     @Autowired
-    private MedicalrecordsServiceImpl medicalrecordsServiceImpl;
+    private MedicalRecordsServiceImpl medicalRecordsServiceImpl;
     /**
      * Method to get a medical records.
      *
      */
     @GetMapping("/")
-    public List<Medicalrecords> getMedicalrecords() {
-        return medicalrecordsServiceImpl.getMedicalrecords();
+    public List<MedicalRecords> getMedicalRecords() {
+        return medicalRecordsServiceImpl.getMedicalRecords();
     }
     /**
      * Method to post a medical records.
      *
      */
     @PostMapping("/")
-    public List<Medicalrecords> addMedicalrecords(@RequestBody Medicalrecords newMedicalrecords) {
-        return medicalrecordsServiceImpl.addMedicalrecords(newMedicalrecords);
+    public List<MedicalRecords> addMedicalRecords(@RequestBody MedicalRecords newMedicalRecords) {
+        return medicalRecordsServiceImpl.addMedicalRecords(newMedicalRecords);
     }
     /**
      * Method to put a medical records.
      *
      */
     @PutMapping("/{firstName}/{lastName}")
-    public List<Medicalrecords> updateMedicalrecords(@RequestBody @NotNull Medicalrecords newMedicalrecords,
+    public List<MedicalRecords> updateMedicalRecords(@RequestBody @NotNull MedicalRecords newMedicalRecords,
                                                      @PathVariable("firstName") String firstName,
                                                      @PathVariable("lastName") String lastName) {
-        return medicalrecordsServiceImpl.updateMedicalrecords(newMedicalrecords, firstName, lastName);
+        return medicalRecordsServiceImpl.updateMedicalRecords(newMedicalRecords, firstName, lastName);
     }
     /**
      * Method to delete a medical records.
      *
      */
     @DeleteMapping("/{firstName}/{lastName}")
-    public String deleteMedicalrecords(@RequestBody Medicalrecords removeMedicalrecords,
+    public String deleteMedicalRecords(@RequestBody MedicalRecords removeMedicalRecords,
                                        @PathVariable("firstName") String firstName,
                                        @PathVariable("lastName") String lastName) {
-        return medicalrecordsServiceImpl.deleteMedicalrecords(removeMedicalrecords, firstName, lastName);
+        return medicalRecordsServiceImpl.deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
     }
 }

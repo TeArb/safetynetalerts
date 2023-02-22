@@ -5,7 +5,7 @@ import com.safetynet.safetynetalerts.models.Persons;
 import java.util.List;
 
 /**
- * Contains abstract method get/post/put/delete of pesrons service.
+ * Contains abstract method get/post/put/delete of persons service.
  *
  * @author Terry
  */

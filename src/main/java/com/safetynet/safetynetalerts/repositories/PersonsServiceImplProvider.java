@@ -29,8 +29,8 @@ public class PersonsServiceImplProvider {
         List<Persons> personsList = personsRepository.getPersons();
         // Checks that firstName and lastName of the person is in the list.
         boolean firstName_LastNameExists = personsList.stream().anyMatch(person
-                -> newPersons.getFirstname().equals(person.getFirstname())
-                && newPersons.getLastname().equals(person.getLastname()));
+                -> newPersons.getFirstName().equals(person.getFirstName())
+                && newPersons.getFirstName().equals(person.getLastName()));
 
         // Added a non-existing person.
         if (!firstName_LastNameExists) {
@@ -51,15 +51,15 @@ public class PersonsServiceImplProvider {
 
         // Checks that firstName and lastName of the person is in the list.
         boolean firstName_LastNameExists = personsList.stream().anyMatch(person
-                -> firstName.equals(person.getFirstname())
-                && lastName.equals(person.getLastname()));
+                -> firstName.equals(person.getFirstName())
+                && lastName.equals(person.getLastName()));
 
         // Update the person present in the list.
         if (firstName_LastNameExists) {
             // Run through the persons list to modify an existing firstName and lastName
             personsList.forEach(person -> {
-                /*if (person.getFirstName().equals(firstName_LastNameExsits)
-                        && person.getLastName().equals(firstName_LastNameExsits)) {*/
+                /*if (person.getFirstName().equals(firstName_LastNameExists)
+                        && person.getLastName().equals(firstName_LastNameExists)) {*/
                 person.setAddress(newPersons.getAddress());
                 person.setCity(newPersons.getCity());
                 person.setZip(newPersons.getZip());
@@ -82,8 +82,8 @@ public class PersonsServiceImplProvider {
         int index = personsList.indexOf(removePersons);
         // Checks that firstName and lastName of the person is in the list.
         boolean firstName_LastNameExists = personsList.stream().anyMatch(person
-                -> firstName.equals(person.getFirstname())
-                && lastName.equals(person.getLastname()));
+                -> firstName.equals(person.getFirstName())
+                && lastName.equals(person.getLastName()));
 
         // Remove the person present in the list.
         if (firstName_LastNameExists && (index > -1)) {

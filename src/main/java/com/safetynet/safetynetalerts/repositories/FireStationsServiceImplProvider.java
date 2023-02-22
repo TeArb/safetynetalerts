@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.repositories;
 
-import com.safetynet.safetynetalerts.models.Firestations;
+import com.safetynet.safetynetalerts.models.FireStations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -10,72 +10,72 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class FirestationsServiceImplProvider {
-    private static final Logger logger = LogManager.getLogger("FirestationsServiceImplProvider");
+public class FireStationsServiceImplProvider {
+    private static final Logger logger = LogManager.getLogger("FireStationsServiceImplProvider");
     @Autowired
-    private FirestationsRepository firestationsRepository;
+    private FireStationsRepository fireStationsRepository;
     /**
      * Get a fire stations list.
      *
      */
-    public List<Firestations> getFirestations() {
+    public List<FireStations> getFireStations() {
         logger.info("Fire stations got");
-        return this.firestationsRepository.getFirestations();
+        return this.fireStationsRepository.getFireStations();
     }
     /**
      * Add a fire station.
      *
      */
-    public Firestations addFirestations(@NotNull Firestations newFirestations) {
-        List<Firestations> firestationsList = firestationsRepository.getFirestations();
-        boolean firestationsExists = firestationsList.stream().anyMatch(newFirestations::equals);
+    public FireStations addFireStations(@NotNull FireStations newFireStations) {
+        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
+        boolean fireStationsExists = fireStationsList.stream().anyMatch(newFireStations::equals);
 
         // Added a non-existing fire station.
-        if (!firestationsExists) {
-            firestationsList.add(newFirestations);
+        if (!fireStationsExists) {
+            fireStationsList.add(newFireStations);
             logger.info("Fire stations added");
         } else {
             logger.error("Fire stations already exist");
             throw new IllegalArgumentException("Fire stations already exist");
         }
-        return newFirestations;
+        return newFireStations;
     }
     /**
      * Update a fire station of the list.
      *
      */
-    public Firestations updateFirestations(Firestations newFirestations, String address) {
-        List<Firestations> firestationsList = firestationsRepository.getFirestations();
+    public FireStations updateFireStations(FireStations newFireStations, String address) {
+        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
         // Checks that address of the fire station is in the list.
-        boolean addressExist = firestationsList.stream().anyMatch(firestation
-                -> address.equals(firestation.getAddress()));
+        boolean addressExist = fireStationsList.stream().anyMatch(fireStation
+                -> address.equals(fireStation.getAddress()));
 
         // Update the fire station present in the list.
         if (addressExist) {
             // Run through the fire station list to modify an existing address
-            firestationsList.forEach(firestation -> {
-                if (firestation.getAddress().equals(address)) {
-                    firestation.setStation(newFirestations.getStation());
-                    firestation.setAddress(newFirestations.getAddress());
+            fireStationsList.forEach(fireStation -> {
+                if (fireStation.getAddress().equals(address)) {
+                    fireStation.setStation(newFireStations.getStation());
+                    fireStation.setAddress(newFireStations.getAddress());
                 }});
             logger.info("Fire stations updated");
         } else{
             logger.error("Fire stations address don't exist");
             throw new NullPointerException("Fire stations address don't exist");
         }
-        return newFirestations;
+        return newFireStations;
     }
     /**
      * Delete a fire station of the list.
      *
      */
-    public String deleteFirestations(Firestations removeFirestations) {
-        List<Firestations> firestationsList = firestationsRepository.getFirestations();
-        int index = firestationsList.indexOf(removeFirestations);
+    public String deleteFireStations(FireStations removeFireStations) {
+        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
+        int index = fireStationsList.indexOf(removeFireStations);
 
         // Remove the fire station present in the list.
         if (index > -1) {
-            firestationsList.remove(removeFirestations);
+            fireStationsList.remove(removeFireStations);
             logger.info("Fire station deleted");
             return "Fire station deleted";
         } else {

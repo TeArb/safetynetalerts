@@ -4,7 +4,6 @@ import com.jsoniter.any.Any;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Medicalrecords {
+public class MedicalRecords {
     private String firstName;
     private String lastName;
     private Date birthdate;
@@ -29,7 +28,7 @@ public class Medicalrecords {
      * Constructor for initialize the medical record's arg.
      *
      */
-    public Medicalrecords(String firstName, String lastName, String birthdate, List<Any> medication, List<Any> allergies) {
+    public MedicalRecords(String firstName, String lastName, String birthdate, List<Any> medication, List<Any> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         try {
@@ -43,9 +42,9 @@ public class Medicalrecords {
 
     @Override
     public String toString() {
-        return "Medicalrecords{" +
-                "firstname='" + firstName + '\'' +
-                ", lastname='" + lastName + '\'' +
+        return "MedicalRecords{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", birthdate=" + birthdate +
                 ", medication=" + medication +
                 ", allergies=" + allergies +

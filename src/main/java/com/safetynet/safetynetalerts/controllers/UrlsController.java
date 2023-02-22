@@ -31,7 +31,7 @@ public class UrlsController {
      *
      */
     @RequestMapping("/childAlert")
-        public List<ChildrenResidenceAddressDTO> getChildrensAddress(@RequestParam String address) {
+        public List<ChildrenResidenceAddressDTO> getChildrenAddress(@RequestParam String address) {
         return urlsService.getChildrenResidenceAddress(address);
     }
     /**
@@ -39,8 +39,8 @@ public class UrlsController {
      *
      */
     @RequestMapping("/phoneAlert")
-    public List<String> getFirestationNumber(@RequestParam String firestation) {
-        return urlsService.getResidentPhoneNumber(firestation);
+    public List<String> getFireStationNumber(@RequestParam String fireStation) {
+        return urlsService.getResidentPhoneNumber(fireStation);
     }
     /**
      * Method to handle the resident addresses and station numbers by address.

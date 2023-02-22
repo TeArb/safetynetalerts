@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.repositories;
 
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
-import com.safetynet.safetynetalerts.models.Firestations;
+import com.safetynet.safetynetalerts.models.FireStations;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,14 +20,14 @@ import java.util.List;
  */
 @Repository
 @AllArgsConstructor
-public class FirestationsRepository {
-    private static final Logger logger = LogManager.getLogger("FirestationsRepository");
+public class FireStationsRepository {
+    private static final Logger logger = LogManager.getLogger("FireStationsRepository");
     /**
      * Method to get the fire stations info's from JSON file.
      *
      */
-    public List<Firestations> getFirestations() {
-        List<Firestations> firestationsList = new ArrayList<>();
+    public List<FireStations> getFireStations() {
+        List<FireStations> fireStationsList = new ArrayList<>();
         String path = "src/main/resources/data.json";
 
         try {
@@ -36,18 +36,18 @@ public class FirestationsRepository {
             // Convert and read the binary format.
             JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
             Any any = jsonIterator.readAny();
-            Any firestationsAny = any.get("firestations");
+            Any fireStationsAny = any.get("firestations");
 
             // Add json string to the list.
-            firestationsAny.forEach(item -> firestationsList.add(
-                    new Firestations(
+            fireStationsAny.forEach(item -> fireStationsList.add(
+                    new FireStations(
                             item.get("address").toString(),
                             item.get("station").toString()
             )));
-            return firestationsList;
+            return fireStationsList;
 
         } catch (IOException e) {
-            logger.error("Failed to convert JSON file for FirestationsRepository", e);
+            logger.error("Failed to convert JSON file for FireStationsRepository", e);
             throw new RuntimeException(e);
         }
     }

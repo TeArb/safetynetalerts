@@ -9,13 +9,13 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Firestations {
+public class FireStations {
     private String address;
     private String station;
 
     @Override
     public String toString() {
-        return "Firestations{" +
+        return "FireStations{" +
                 "address='" + address + '\'' +
                 ", station=" + station +
                 '}';

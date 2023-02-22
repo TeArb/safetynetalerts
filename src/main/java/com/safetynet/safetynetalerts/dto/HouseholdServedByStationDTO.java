@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class HouseholdServedByStationDTO {
-    private String lastname;
+    private String lastName;
     private String phone;
     private int age;
     private List<String> medication;

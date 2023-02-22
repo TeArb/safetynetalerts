@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class InhabitantInfoDTO {
-    private String lastname;
+    private String lastName;
     private String address;
     private int age;
     private String email;
