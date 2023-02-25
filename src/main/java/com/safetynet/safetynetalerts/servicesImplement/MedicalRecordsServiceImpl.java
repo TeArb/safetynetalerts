@@ -3,16 +3,22 @@ package com.safetynet.safetynetalerts.servicesImplement;
 import com.safetynet.safetynetalerts.models.MedicalRecords;
 import com.safetynet.safetynetalerts.repositories.MedicalRecordsServiceImplProvider;
 import com.safetynet.safetynetalerts.services.IMedicalRecordsService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@NoArgsConstructor
 public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
     @Autowired
-    private MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
+    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
     private static List<MedicalRecords> medicalRecordsList;
+
+    public MedicalRecordsServiceImpl(MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider) {
+        this.medicalRecordsServiceImplProvider = medicalRecordsServiceImplProvider;
+    }
 
     /**
      * Set static the medical records list.

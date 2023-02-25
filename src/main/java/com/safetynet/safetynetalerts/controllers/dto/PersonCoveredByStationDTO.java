@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.dto;
+package com.safetynet.safetynetalerts.controllers.dto;
 
 import com.safetynet.safetynetalerts.models.Persons;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package com.safetynet.safetynetalerts.services;
+package com.safetynet.safetynetalerts.servicesImplement;
 
-import com.safetynet.safetynetalerts.dto.*;
+import com.safetynet.safetynetalerts.controllers.dto.*;
 import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,14 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class UrlsServiceTest {
     @Autowired
     private UrlsService urlsService;
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void getPersonCoveredByStation() {

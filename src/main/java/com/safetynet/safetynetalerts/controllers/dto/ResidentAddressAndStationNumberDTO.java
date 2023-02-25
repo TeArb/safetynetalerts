@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.dto;
+package com.safetynet.safetynetalerts.controllers.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

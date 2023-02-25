@@ -64,8 +64,8 @@ public class MedicalRecordsServiceImplProvider {
                 });
             logger.info("Medical records updated");
         } else{
-            logger.error("Medical records firstName and lastName don't exist");
-            throw new NullPointerException("Medical records firstName and lastName don't exist");
+            //logger.error("Medical records firstName and lastName don't exist");
+            throw new IllegalArgumentException("Medical records firstName and lastName don't exist");
         }
         return newMedicalRecords;
     }

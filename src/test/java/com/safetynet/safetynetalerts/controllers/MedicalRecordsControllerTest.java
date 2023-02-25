@@ -104,7 +104,8 @@ class MedicalRecordsControllerTest {
                 .andExpect(status().isOk());
 
 
-        verify(medicalRecordsController, times(1)).updateMedicalRecords(newMedicalRecords, firstName, lastName);
+        verify(medicalRecordsController, times(1))
+                .updateMedicalRecords(newMedicalRecords, firstName, lastName);
     }
 
     @Test
@@ -129,6 +130,7 @@ class MedicalRecordsControllerTest {
                 .andExpect(status().isOk());
 
 
-        verify(medicalRecordsController, times(1)).deleteMedicalRecords(newMedicalRecords, firstName, lastName);
+        verify(medicalRecordsController, times(1))
+                .deleteMedicalRecords(newMedicalRecords, firstName, lastName);
     }
 }

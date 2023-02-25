@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.controllers;
 
-import com.safetynet.safetynetalerts.dto.*;
+import com.safetynet.safetynetalerts.controllers.dto.*;
 import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
