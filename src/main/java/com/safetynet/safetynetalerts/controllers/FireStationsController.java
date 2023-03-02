@@ -3,8 +3,6 @@ package com.safetynet.safetynetalerts.controllers;
 import com.safetynet.safetynetalerts.models.FireStations;
 import com.safetynet.safetynetalerts.servicesImplement.FireStationsServiceImpl;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ import java.util.List;
 @RequestMapping("/firestation")
 @AllArgsConstructor
 public class FireStationsController {
-    private static final Logger logger = LogManager.getLogger("FireStationsController");
     @Autowired
     private FireStationsServiceImpl fireStationsServiceImpl;
     /**

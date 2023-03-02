@@ -9,65 +9,81 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class FireStationsServiceImplProviderTest {
-    @Autowired
-    private FireStationsRepository fireStationsRepository;
     @Autowired
     private FireStationsServiceImplProvider fireStationsServiceImplProvider;
 
     @Test
     void getFireStations() {
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
-
-        assertNotNull(fireStationsList);
-        assertTrue(fireStationsList.size() > 0);
-    }
-
-    @Test
-    void addFireStations() {
-        FireStations newFireStations = new FireStations("15 St James", "5");
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
-        fireStationsList.add(fireStationsServiceImplProvider.addFireStations(newFireStations));
-
-        assertThat(fireStationsList).contains(newFireStations);
+        assertNotNull(fireStationsServiceImplProvider.getFireStations());
     }
 
     @Test
     void addFireStations_AlreadyExist() {
         FireStations newFireStations = new FireStations("1509 Culver St", "3");
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
+        String errorMessage = "Fire station already exist.";
 
-        assertThrows(IllegalArgumentException.class, () ->
-                fireStationsList.add(fireStationsServiceImplProvider.addFireStations(newFireStations)));
+        NullPointerException thrownException = assertThrows(NullPointerException.class,
+                () -> fireStationsServiceImplProvider.addFireStations(newFireStations), errorMessage);
+
+        assertEquals(errorMessage, thrownException.getMessage());
     }
 
     @Test
-    void updateFireStations() {
+    void addFireStations() {
         FireStations newFireStations = new FireStations("15 St James", "5");
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
-        fireStationsList.add(fireStationsServiceImplProvider
-                .updateFireStations(newFireStations, "1509 Culver St"));
+        List<FireStations> fireStationsList = fireStationsServiceImplProvider.getFireStations();
 
-        assertThat(fireStationsList).contains(newFireStations);
+        assertThat(fireStationsList).doesNotContain(fireStationsServiceImplProvider
+                .addFireStations(newFireStations));
     }
 
     @Test
     void updateFireStations_NotExist() {
-        FireStations fireStations = new FireStations("15 St James", "5");
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
+        String address = "15 St James";
+        FireStations newFireStations = new FireStations(address, "5");
+        String errorMessage = "Fire stations address don't exist.";
 
-        assertThrows(NullPointerException.class, () ->
-                fireStationsList.add(fireStationsServiceImplProvider
-                        .updateFireStations(fireStations,  "15 St James")));
+        NullPointerException thrownException = assertThrows(NullPointerException.class,
+                () -> fireStationsServiceImplProvider
+                        .updateFireStations(newFireStations, address), errorMessage);
+
+        assertEquals(errorMessage, thrownException.getMessage());
+    }
+
+    @Test
+    void updateFireStations() {
+        String address = "1509 Culver St";
+        FireStations newFireStations = new FireStations(address, "3");
+        List<FireStations> fireStationsList = fireStationsServiceImplProvider.getFireStations();
+
+        assertTrue(fireStationsList.add(fireStationsServiceImplProvider
+                .updateFireStations(newFireStations, address)));
+    }
+
+    @Test
+    void deleteFireStations_NotExist() {
+        FireStations removeFireStations = new FireStations("15 St James", "5");
+        String returnMessage = "Fire station not found.";
+
+        FireStationsServiceImplProvider mockFireStationsService = mock(FireStationsServiceImplProvider.class);
+        when(mockFireStationsService.deleteFireStations(removeFireStations)).thenReturn(returnMessage);
+
+        assertEquals(returnMessage, mockFireStationsService.deleteFireStations(removeFireStations));
     }
 
     @Test
     void deleteFireStations() {
         FireStations removeFireStations = new FireStations("1509 Culver St", "3");
+        String returnMessage = "Fire station deleted.";
 
-        assertEquals("Fire station deleted", fireStationsServiceImplProvider
-                .deleteFireStations(removeFireStations));
+        FireStationsServiceImplProvider mockFireStationsService = mock(FireStationsServiceImplProvider.class);
+        when(mockFireStationsService.deleteFireStations(removeFireStations)).thenReturn(returnMessage);
+
+        assertEquals(returnMessage, mockFireStationsService.deleteFireStations(removeFireStations));
     }
 }

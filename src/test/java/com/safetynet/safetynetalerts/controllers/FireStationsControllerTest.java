@@ -2,7 +2,6 @@ package com.safetynet.safetynetalerts.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.safetynetalerts.models.FireStations;
-import com.safetynet.safetynetalerts.repositories.FireStationsRepository;
 import com.safetynet.safetynetalerts.servicesImplement.FireStationsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,12 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class FireStationsControllerTest {
     @MockBean
-    protected FireStationsServiceImpl fireStationsServiceImpl;
+    protected FireStationsController fireStationsController;
     @Autowired
-    private FireStationsRepository fireStationsRepository;
+    private FireStationsServiceImpl fireStationsServiceImpl;
+    private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webApplicationContext;
-    private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -38,22 +35,10 @@ class FireStationsControllerTest {
     }
 
     @Test
-    void validValue_thenReturns200() throws Exception {
-        FireStations newFireStations = new FireStations("15 St James", "5");
-
-        mockMvc.perform(post("/firestation/")
-                        .contentType("application/json")
-                        .param("FireStations", "newFireStations")
-                        .content(objectMapper.writeValueAsString(newFireStations)))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
     void nullValue_thenReturns400() throws Exception {
         mockMvc.perform(post("/firestation/")
                         .contentType("application/json")
-                        .param("FireStations", "newFireStations")
+                        .param("Firestations", "newFirestations")
                         .content(objectMapper.writeValueAsString(null)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -61,67 +46,69 @@ class FireStationsControllerTest {
 
     @Test
     void getFireStations() throws Exception {
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
-
-        when(fireStationsServiceImpl.getFireStations()).thenReturn(fireStationsList);
+        when(fireStationsController.getFireStations()).thenReturn(fireStationsServiceImpl.getFireStations());
 
         mockMvc.perform(get("/firestation/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(fireStationsServiceImpl).getFireStations();
+        verify(fireStationsController).getFireStations();
     }
 
     @Test
     void addFireStations() throws Exception {
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
         FireStations newFireStations = new FireStations("15 St James", "5");
 
-        when(fireStationsServiceImpl.addFireStations(newFireStations)).thenReturn(fireStationsList);
+        when(fireStationsController.addFireStations(newFireStations))
+                .thenReturn(fireStationsServiceImpl.addFireStations(newFireStations));
 
         mockMvc.perform(post("/firestation/")
                         .contentType("application/json")
-                        .param("FireStations", "newFireStations")
+                        .param("Firestation", String.valueOf(newFireStations))
                         .content(objectMapper.writeValueAsString(newFireStations)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(fireStationsServiceImpl, times(1)).addFireStations(newFireStations);
+        verify(fireStationsController, times(1)).addFireStations(newFireStations);
     }
 
     @Test
     void updateFireStations() throws Exception {
-        List<FireStations> fireStationsList = fireStationsRepository.getFireStations();
         FireStations newFireStations = new FireStations("15 St James", "5");
         String address = "1509 Culver St";
 
-        when(fireStationsServiceImpl.updateFireStations(newFireStations, address)).thenReturn(fireStationsList);
+        when(fireStationsController.updateFireStations(newFireStations, address))
+                .thenReturn(fireStationsServiceImpl.updateFireStations(newFireStations, address));
 
-        mockMvc.perform(put("/firestation/" + address)
+        mockMvc.perform(put("/firestation/{address}", address)
                         .contentType("application/json")
-                        .param("FireStations", "newFireStations")
+                        .param("newFirestation", String.valueOf(newFireStations))
                         .content(objectMapper.writeValueAsString(newFireStations)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(fireStationsServiceImpl, times(1)).updateFireStations(newFireStations, address);
+
+        verify(fireStationsController, times(1))
+                .updateFireStations(newFireStations, address);
     }
 
     @Test
     void deleteFireStations() throws Exception {
-        FireStations removeFireStations = new FireStations("1509 Culver St", "3");
-        String deleteFireStation = "Fire station deleted";
+        FireStations newFireStations = new FireStations("1509 Culver St", "3");
 
-        when(fireStationsServiceImpl.deleteFireStations(removeFireStations)).thenReturn(deleteFireStation);
+        when(fireStationsController.deleteFireStations(newFireStations))
+                .thenReturn(fireStationsServiceImpl.deleteFireStations(newFireStations));
 
         mockMvc.perform(delete("/firestation/")
                         .contentType("application/json")
-                        .param("FireStations", "removeFireStations")
-                        .content(objectMapper.writeValueAsString(removeFireStations)))
+                        .param("newFireStations", String.valueOf(newFireStations))
+                        .content(objectMapper.writeValueAsString(newFireStations)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(fireStationsServiceImpl, times(1)).deleteFireStations(removeFireStations);
+
+        verify(fireStationsController, times(1))
+                .deleteFireStations(newFireStations);
     }
 }

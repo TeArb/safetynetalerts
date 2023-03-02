@@ -35,8 +35,8 @@ public class FireStationsServiceImplProvider {
             fireStationsList.add(newFireStations);
             logger.info("Fire stations added");
         } else {
-            logger.error("Fire stations already exist");
-            throw new IllegalArgumentException("Fire stations already exist");
+            logger.error("Fire station already exist.");
+            throw new NullPointerException("Fire station already exist.");
         }
         return newFireStations;
     }
@@ -60,8 +60,8 @@ public class FireStationsServiceImplProvider {
                 }});
             logger.info("Fire stations updated");
         } else{
-            logger.error("Fire stations address don't exist");
-            throw new NullPointerException("Fire stations address don't exist");
+            logger.error("Fire stations address don't exist.");
+            throw new NullPointerException("Fire stations address don't exist.");
         }
         return newFireStations;
     }
@@ -76,11 +76,11 @@ public class FireStationsServiceImplProvider {
         // Remove the fire station present in the list.
         if (index > -1) {
             fireStationsList.remove(removeFireStations);
-            logger.info("Fire station deleted");
-            return "Fire station deleted";
+            logger.info("Fire station deleted.");
+            return "Fire station deleted.";
         } else {
-            logger.error("Fire station not found");
-            return "Fire station not found";
+            logger.error("Fire station not found.");
+            return "Fire station not found.";
         }
     }
 }

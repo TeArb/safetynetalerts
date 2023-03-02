@@ -13,6 +13,7 @@ public class MedicalRecordsServiceImplProvider {
     private static final Logger logger = LogManager.getLogger("MedicalRecordsServiceImplProvider");
     @Autowired
     private MedicalRecordsRepository medicalRecordsRepository;
+
     /**
      * Get a medical records list.
      *
@@ -37,8 +38,8 @@ public class MedicalRecordsServiceImplProvider {
             medicalRecordsList.add(newMedicalRecords);
             logger.info("Medical records added");
         } else {
-            logger.error("Medical records already exist");
-            throw new IllegalArgumentException("Medical records already exist");
+            logger.error("Medical records already exist.");
+            throw new NullPointerException("Medical records already exist.");
         }
         return newMedicalRecords;
     }
@@ -51,12 +52,13 @@ public class MedicalRecordsServiceImplProvider {
 
         // Checks that firstName and lastName of the medical records is in the list.
         boolean firstName_LastNameExists = medicalRecordsList.stream().anyMatch(medicalRecords
-                -> firstName.equals(medicalRecords.getFirstName())
-                && lastName.equals(medicalRecords.getLastName()));
+                -> medicalRecords.getFirstName().equals(firstName)
+                && medicalRecords.getLastName().equals(lastName));
 
         // Update the medical records present in the list.
-        if (firstName_LastNameExists) {
-            // Run through the medical records list to modify an existing firstName and lastName
+        if (firstName_LastNameExists && (newMedicalRecords.getFirstName().equals(firstName)
+        && newMedicalRecords.getLastName().equals(lastName))) {
+            // Run through the medical records list to modify an existing person
             medicalRecordsList.forEach(medicalRecords -> {
                 medicalRecords.setBirthdate(newMedicalRecords.getBirthdate());
                 medicalRecords.setMedication(newMedicalRecords.getMedication());
@@ -64,8 +66,10 @@ public class MedicalRecordsServiceImplProvider {
                 });
             logger.info("Medical records updated");
         } else{
-            //logger.error("Medical records firstName and lastName don't exist");
-            throw new IllegalArgumentException("Medical records firstName and lastName don't exist");
+            logger.error("Medical records "  + newMedicalRecords.getFirstName() + " " + newMedicalRecords.getLastName()
+                    + " don't exist.");
+            throw new NullPointerException("Medical records "  + newMedicalRecords.getFirstName() + " "
+                    + newMedicalRecords.getLastName() + " don't exist.");
         }
         return newMedicalRecords;
     }
@@ -78,17 +82,17 @@ public class MedicalRecordsServiceImplProvider {
         int index = medicalRecordsList.indexOf(removeMedicalRecords);
         // Checks that firstName and lastName of the medical records is in the list.
         boolean firstName_LastNameExists = medicalRecordsList.stream().anyMatch(medicalRecords
-                -> firstName.equals(medicalRecords.getFirstName())
-                && lastName.equals(medicalRecords.getLastName()));
+                -> (medicalRecords.getFirstName().equals(firstName) && removeMedicalRecords.getFirstName().equals(firstName))
+                && (medicalRecords.getLastName().equals(lastName)&& removeMedicalRecords.getLastName().equals(lastName)));
 
         // Remove the medical records present in the list.
         if (firstName_LastNameExists && (index > -1)) {
             medicalRecordsList.remove(removeMedicalRecords);
-            logger.info("Medical records deleted");
-            return "Medical records deleted";
+            logger.info("Medical records deleted.");
+            return "Medical records deleted.";
         } else {
-            logger.error("Medical records not found");
-            return "Medical records not found";
+            logger.error("Medical records not found.");
+            return "Medical records not found.";
         }
     }
 }

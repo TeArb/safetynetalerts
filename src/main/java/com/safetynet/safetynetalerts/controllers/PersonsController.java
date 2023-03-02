@@ -3,8 +3,6 @@ package com.safetynet.safetynetalerts.controllers;
 import com.safetynet.safetynetalerts.models.Persons;
 import com.safetynet.safetynetalerts.servicesImplement.PersonsServiceImpl;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ import java.util.List;
 @RequestMapping("/person")
 @AllArgsConstructor
 public class PersonsController {
-    private static final Logger logger = LogManager.getLogger("PersonsController");
     @Autowired
     private PersonsServiceImpl personsServiceImpl;
     /**

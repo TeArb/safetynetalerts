@@ -4,22 +4,19 @@ import com.safetynet.safetynetalerts.models.MedicalRecords;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class MedicalRecordsServiceImplProviderTest {
-    @MockBean
-    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
-
     @Autowired
-    private MedicalRecordsRepository medicalRecordsRepository;
+    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
 
     @Test
     void getMedicalRecords() {
@@ -27,21 +24,17 @@ class MedicalRecordsServiceImplProviderTest {
     }
 
     @Test
-    void addMedicalRecords_AlreadyExist() {/*
+    void addMedicalRecords_AlreadyExist() {
         MedicalRecords newMedicalRecords = new MedicalRecords();
-        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImplProvider.getMedicalRecords();
+        String errorMessage = "Medical records already exist.";
 
         newMedicalRecords.setFirstName("John");
-        newMedicalRecords.setFirstName("Boyd");
-        newMedicalRecords.setBirthdate(new Date("03/06/1984"));
-        newMedicalRecords.setMedication(List.of("aznol:350mg", "hydrapermazol:100mg]"));
-        newMedicalRecords.setAllergies(List.of("peanuts"));
+        newMedicalRecords.setLastName("Boyd");
 
-        when(medicalRecordsServiceImplProvider.addMedicalRecords(newMedicalRecords))
-                .thenReturn(newMedicalRecords);
+        NullPointerException thrownException = assertThrows(NullPointerException.class,
+                () -> medicalRecordsServiceImplProvider.addMedicalRecords(newMedicalRecords), errorMessage);
 
-        assertEquals(medicalRecordsList.add(newMedicalRecords), medicalRecordsServiceImplProvider
-                .addMedicalRecords(newMedicalRecords));*/
+        assertEquals(errorMessage, thrownException.getMessage());
     }
 
     @Test
@@ -50,13 +43,10 @@ class MedicalRecordsServiceImplProviderTest {
         List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImplProvider.getMedicalRecords();
 
         newMedicalRecords.setFirstName("Jake");
-        newMedicalRecords.setFirstName("Doe");
+        newMedicalRecords.setLastName("Doe");
         newMedicalRecords.setBirthdate(new Date("03/06/1984"));
         newMedicalRecords.setMedication(List.of("aznol:350mg", "hydrapermazol:100mg]"));
         newMedicalRecords.setAllergies(List.of("peanuts"));
-
-        when(medicalRecordsServiceImplProvider.addMedicalRecords(newMedicalRecords))
-                .thenReturn(newMedicalRecords);
 
         assertThat(medicalRecordsList).doesNotContain(medicalRecordsServiceImplProvider
                 .addMedicalRecords(newMedicalRecords));
@@ -64,34 +54,19 @@ class MedicalRecordsServiceImplProviderTest {
 
     @Test
     void updateMedicalRecords_NotExist() {
-     /*   String firstName = "John";
-        String lastName = "Boyd";
+        String firstName = "Jake";
+        String lastName = "Doe";
         MedicalRecords newMedicalRecords = new MedicalRecords();
-        List<MedicalRecords> medicalRecordsList = medicalRecordsRepository.getMedicalRecords();
+        String errorMessage = "Medical records "  + firstName + " " + lastName + " don't exist.";
 
-        newMedicalRecords.setBirthdate(new Date("03/06/1984"));
-        newMedicalRecords.setMedication(List.of("aznol:350mg", "hydrapermazol:100mg]"));
-        newMedicalRecords.setAllergies(List.of("peanuts"));
+        newMedicalRecords.setFirstName(firstName);
+        newMedicalRecords.setLastName(lastName);
 
-        when(medicalRecordsServiceImplProvider.updateMedicalRecords(newMedicalRecords, firstName, lastName))
-                .thenReturn(newMedicalRecords);
+        NullPointerException thrownException = assertThrows(NullPointerException.class,
+                () -> medicalRecordsServiceImplProvider
+                        .updateMedicalRecords(newMedicalRecords, "John", "Boyd"), errorMessage);
 
-        NullPointerException exception = assertThrows(
-                NullPointerException.class, () -> {
-                    medicalRecordsServiceImplProvider.updateMedicalRecords(newMedicalRecords, firstName, lastName);
-                }
-        );
-
-        assertEquals("Medical records firstName and lastName don't exist", exception.getMessage());
-
-        NullPointerException exception;
-
-        exception = assertThrows(NullPointerException.class, newMedicalRecords::notify);
-        assertNotNull(exception);
-
-        // Note that Object.wait(...) is an overloaded method with a void return type
-        exception = assertThrows(NullPointerException.class, newMedicalRecords::wait);
-        assertNotNull(exception);*/
+        assertEquals(errorMessage, thrownException.getMessage());
     }
 
     @Test
@@ -99,14 +74,10 @@ class MedicalRecordsServiceImplProviderTest {
         String firstName = "John";
         String lastName = "Boyd";
         MedicalRecords newMedicalRecords = new MedicalRecords();
-        List<MedicalRecords> medicalRecordsList = medicalRecordsRepository.getMedicalRecords();
+        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImplProvider.getMedicalRecords();
 
-        newMedicalRecords.setBirthdate(new Date("03/06/1984"));
-        newMedicalRecords.setMedication(List.of("aznol:350mg", "hydrapermazol:100mg]"));
-        newMedicalRecords.setAllergies(List.of("nillacilan"));
-
-        when(medicalRecordsServiceImplProvider.updateMedicalRecords(newMedicalRecords, firstName, lastName))
-                .thenReturn(newMedicalRecords);
+        newMedicalRecords.setFirstName(firstName);
+        newMedicalRecords.setLastName(lastName);
 
         assertTrue(medicalRecordsList.add(medicalRecordsServiceImplProvider
                 .updateMedicalRecords(newMedicalRecords, firstName, lastName)));
@@ -116,31 +87,29 @@ class MedicalRecordsServiceImplProviderTest {
     void deleteMedicalRecords_NotExist() {
         String firstName = "Jake";
         String lastName = "Doe";
+        String returnMessage = "Medical records not found.";
         MedicalRecords removeMedicalRecords = new MedicalRecords();
 
-        removeMedicalRecords.setFirstName(firstName);
-        removeMedicalRecords.setFirstName(lastName);
+        MedicalRecordsServiceImplProvider mockMedicalRecordsService = mock(MedicalRecordsServiceImplProvider.class);
+        when(mockMedicalRecordsService.deleteMedicalRecords(removeMedicalRecords, firstName, lastName))
+                .thenReturn(returnMessage);
 
-        when(medicalRecordsServiceImplProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName))
-                .thenReturn("Medical records not found");
-
-        assertEquals("Medical records not found",
-                medicalRecordsServiceImplProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName));
+        assertEquals(returnMessage, mockMedicalRecordsService.deleteMedicalRecords(
+                removeMedicalRecords, firstName, lastName));
     }
 
     @Test
     void deleteMedicalRecords() {
         String firstName = "John";
         String lastName = "Boyd";
+        String returnMessage = "Medical records deleted.";
         MedicalRecords removeMedicalRecords = new MedicalRecords();
 
-        removeMedicalRecords.setFirstName(firstName);
-        removeMedicalRecords.setFirstName(lastName);
+        MedicalRecordsServiceImplProvider mockMedicalRecordsService = mock(MedicalRecordsServiceImplProvider.class);
+        when(mockMedicalRecordsService.deleteMedicalRecords(removeMedicalRecords, firstName, lastName))
+                .thenReturn(returnMessage);
 
-        when(medicalRecordsServiceImplProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName))
-                .thenReturn("Medical records deleted");
-
-        assertEquals("Medical records deleted",
-                medicalRecordsServiceImplProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName));
+        assertEquals(returnMessage, mockMedicalRecordsService.deleteMedicalRecords(
+                removeMedicalRecords, firstName, lastName));
     }
 }

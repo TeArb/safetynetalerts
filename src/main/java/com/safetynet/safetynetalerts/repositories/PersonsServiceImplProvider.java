@@ -37,8 +37,8 @@ public class PersonsServiceImplProvider {
             personsList.add(newPersons);
             logger.info("Person added");
         } else {
-            logger.error("Person already exist");
-            throw new IllegalArgumentException("Person already exist");
+            logger.error("Person already exist.");
+            throw new IllegalArgumentException("Person already exist.");
         }
         return newPersons;
     }
@@ -68,8 +68,8 @@ public class PersonsServiceImplProvider {
             });
             logger.info("Person updated");
         } else{
-            logger.error("Person firstName and lastName don't exist");
-            throw new NullPointerException("Person firstName and lastName don't exist");
+            logger.error("Person firstName and lastName don't exist.");
+            throw new NullPointerException("Person firstName and lastName don't exist.");
         }
         return newPersons;
     }
@@ -88,11 +88,11 @@ public class PersonsServiceImplProvider {
         // Remove the person present in the list.
         if (firstName_LastNameExists && (index > -1)) {
             personsList.remove(removePersons);
-            logger.info("Person deleted");
-            return "Person deleted";
+            logger.info("Person deleted.");
+            return "Person deleted.";
         } else {
-            logger.error("Person not found");
-            return "Person not found";
+            logger.error("Person not found.");
+            return "Person not found.";
         }
     }
 }
