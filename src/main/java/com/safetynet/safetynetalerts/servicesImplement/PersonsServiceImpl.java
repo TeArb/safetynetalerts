@@ -13,7 +13,12 @@ public class PersonsServiceImpl implements IPersonsService {
     @Autowired
     private PersonsServiceImplProvider personsServiceImplProvider;
     private static List<Persons> personsList;
-
+    /**
+     * Constructor of persons, help for the setup test.
+     */
+    public PersonsServiceImpl(PersonsServiceImplProvider personsServiceImplProvider) {
+        this.personsServiceImplProvider = personsServiceImplProvider;
+    }
     /**
      * Set static the persons list.
      */

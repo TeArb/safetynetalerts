@@ -15,7 +15,9 @@ public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
     @Autowired
     protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
     private static List<MedicalRecords> medicalRecordsList;
-
+    /**
+     * Constructor of medical records, help for the setup test.
+     */
     public MedicalRecordsServiceImpl(MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider) {
         this.medicalRecordsServiceImplProvider = medicalRecordsServiceImplProvider;
     }

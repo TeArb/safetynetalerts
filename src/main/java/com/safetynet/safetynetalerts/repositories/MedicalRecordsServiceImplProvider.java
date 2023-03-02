@@ -13,7 +13,6 @@ public class MedicalRecordsServiceImplProvider {
     private static final Logger logger = LogManager.getLogger("MedicalRecordsServiceImplProvider");
     @Autowired
     private MedicalRecordsRepository medicalRecordsRepository;
-
     /**
      * Get a medical records list.
      *

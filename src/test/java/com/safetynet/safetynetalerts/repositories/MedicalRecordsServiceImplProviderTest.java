@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class MedicalRecordsServiceImplProviderTest {
     @Autowired
-    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
+    private MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
 
     @Test
     void getMedicalRecords() {

@@ -30,7 +30,7 @@ public class PersonsServiceImplProvider {
         // Checks that firstName and lastName of the person is in the list.
         boolean firstName_LastNameExists = personsList.stream().anyMatch(person
                 -> newPersons.getFirstName().equals(person.getFirstName())
-                && newPersons.getFirstName().equals(person.getLastName()));
+                && newPersons.getLastName().equals(person.getLastName()));
 
         // Added a non-existing person.
         if (!firstName_LastNameExists) {
@@ -38,7 +38,7 @@ public class PersonsServiceImplProvider {
             logger.info("Person added");
         } else {
             logger.error("Person already exist.");
-            throw new IllegalArgumentException("Person already exist.");
+            throw new NullPointerException("Person already exist.");
         }
         return newPersons;
     }
@@ -55,7 +55,8 @@ public class PersonsServiceImplProvider {
                 && lastName.equals(person.getLastName()));
 
         // Update the person present in the list.
-        if (firstName_LastNameExists) {
+        if (firstName_LastNameExists && (newPersons.getFirstName().equals(firstName)
+                && newPersons.getLastName().equals(lastName))) {
             // Run through the persons list to modify an existing firstName and lastName
             personsList.forEach(person -> {
                 /*if (person.getFirstName().equals(firstName_LastNameExists)
@@ -68,8 +69,8 @@ public class PersonsServiceImplProvider {
             });
             logger.info("Person updated");
         } else{
-            logger.error("Person firstName and lastName don't exist.");
-            throw new NullPointerException("Person firstName and lastName don't exist.");
+            logger.error("Person "  + firstName + " " + lastName + " don't exist.");
+            throw new NullPointerException("Person "  + firstName + " " + lastName + " don't exist.");
         }
         return newPersons;
     }

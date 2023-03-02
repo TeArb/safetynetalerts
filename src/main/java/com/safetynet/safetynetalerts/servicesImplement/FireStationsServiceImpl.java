@@ -13,6 +13,12 @@ public class FireStationsServiceImpl implements IFireStationsService {
     @Autowired
     private FireStationsServiceImplProvider fireStationsServiceImplProvider;
     private static List<FireStations> fireStationsList;
+    /**
+     * Constructor of fire stations, help for the setup test.
+     */
+    public FireStationsServiceImpl(FireStationsServiceImplProvider fireStationsServiceImplProvider) {
+        this.fireStationsServiceImplProvider = fireStationsServiceImplProvider;
+    }
 
     /**
      * Set static the fire station list.

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -31,8 +32,8 @@ class MedicalRecordsServiceImplTest {
     @Test
     void getMedicalRecords() {
         List<MedicalRecords> medicalRecordsList = new ArrayList<>();
-        medicalRecordsList.add(
-                new MedicalRecords("John", "Boyd", "06/06/1984", new ArrayList<>(), new ArrayList<>()));
+        medicalRecordsList.add(new MedicalRecords("John", "Boyd", "06/06/1984",
+                new ArrayList<>(), new ArrayList<>()));
 
         when(medicalRecordsServiceImplProvider.getMedicalRecords()).thenReturn(medicalRecordsList);
 
@@ -41,26 +42,35 @@ class MedicalRecordsServiceImplTest {
 
     @Test
     void addMedicalRecords() {
-        MedicalRecords medicalRecords =
-                new MedicalRecords("John", "Boyd", "06/06/1984", new ArrayList<>(), new ArrayList<>());
-        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImpl.addMedicalRecords(medicalRecords);
+        MedicalRecords newMedicalRecords = new MedicalRecords("John", "Boyd", "06/06/1984",
+                new ArrayList<>(), new ArrayList<>());
+        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImpl.addMedicalRecords(newMedicalRecords);
+
         assertEquals(1, medicalRecordsList.size());
     }
-/*
+
     @Test
     void updateMedicalRecords() {
-        string firstName = "John";
+        String firstName = "John";
         String lastName = "Boyd";
-        MedicalRecords newMedicalRecords = new MedicalRecords();
-        List<MedicalRecords> medicalRecordsList = medicalRecordsRepository.getMedicalRecords();
+        MedicalRecords newMedicalRecords = new MedicalRecords(firstName, lastName, "06/06/1984",
+                        new ArrayList<>(), new ArrayList<>());
+        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImpl
+                .updateMedicalRecords(newMedicalRecords, firstName, lastName);
 
-        newMedicalRecords.setBirthdate(new Date("03/06/1984"));
-        newMedicalRecords.setMedication(List.of("aznol:350mg", "hydrapermazol:100mg]"));
-        newMedicalRecords.setAllergies(List.of("nillacilan"));
-        assertThat();*/
+        assertEquals(1, medicalRecordsList.size());
+    }
 
 
     @Test
     void deleteMedicalRecords() {
+        String firstName = "John";
+        String lastName = "Boyd";
+        MedicalRecords removeMedicalRecords = new MedicalRecords(firstName, lastName, "06/06/1984",
+                new ArrayList<>(), new ArrayList<>());
+        String medicalRecordsString = medicalRecordsServiceImpl
+                .deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
+
+        assertNull(medicalRecordsString);
     }
 }
