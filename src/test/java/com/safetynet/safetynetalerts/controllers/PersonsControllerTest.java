@@ -13,21 +13,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 class PersonsControllerTest {
-    @MockBean
-    protected PersonsController personsController;
     @Autowired
-    private PersonsServiceImpl  personsServiceImpl;
+    private PersonsController personsController;
+    @MockBean
+    protected PersonsServiceImpl  personsService;
     private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -51,31 +53,38 @@ class PersonsControllerTest {
 
     @Test
     void getPersons() throws Exception {
-        when(personsController.getPersons()).thenReturn(personsServiceImpl.getPersons());
+        String firstName = "John";
+        String lastName = "Boyd";
+
+        List<Persons> personsList = new ArrayList<>();
+        personsList.add(new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"))));
+
+        when(personsService.getPersons()).thenReturn(personsList);
 
         mockMvc.perform(get("/person/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(personsController).getPersons();
+        List<Persons> persList = personsController.getPersons();
+        assertEquals(persList, personsList);
     }
 
     @Test
     void addPersons() throws Exception {
         String firstName = "Jake";
         String lastName = "Doe";
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("03/06/1989");
-        MedicalRecords medicalRecords = new MedicalRecords(firstName,
-                lastName, birthdate, medication, allergies);
-        Persons newPersons = new Persons(firstName, lastName, "1509 Culver St", "Culver",
-                "98000", "800-874-6512", "jadoe@email.com", medicalRecords);
+        Persons newPersons = new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
+
+        List<Persons> personsList = new ArrayList<>();
+        personsList.add(newPersons);
 
         when(personsController.addPersons(newPersons))
-                .thenReturn(personsServiceImpl.addPersons(newPersons));
+                .thenReturn(personsList);
 
         mockMvc.perform(post("/person/")
                         .contentType("application/json")
@@ -84,24 +93,23 @@ class PersonsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(personsController, times(1)).addPersons(newPersons);
+        List<Persons> persList = personsController.addPersons(newPersons);
+        assertEquals(persList, personsList);
     }
 
     @Test
     void updatePersons() throws Exception {
         String firstName = "John";
         String lastName = "Boyd";
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("02/06/1984");
-        MedicalRecords medicalRecords = new MedicalRecords(firstName,
-                lastName, birthdate, medication, allergies);
-        Persons newPersons = new Persons(firstName, lastName, "1509 Culver St", "Culver",
-                "98000", "800-874-6512", "jadoe@email.com", medicalRecords);
+        Persons newPersons = new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
 
-        when(personsController.updatePersons(newPersons, firstName, lastName))
-                .thenReturn(personsServiceImpl.updatePersons(newPersons, firstName, lastName));
+        List<Persons> personsList = new ArrayList<>();
+        personsList.add(newPersons);
+
+        when(personsService.updatePersons(newPersons, firstName, lastName))
+                .thenReturn(personsList);
 
         mockMvc.perform(put("/person/{firstName}/{lastName}", firstName, lastName)
                         .contentType("application/json")
@@ -110,24 +118,20 @@ class PersonsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(personsController, times(1)).updatePersons(newPersons, firstName, lastName);
+        List<Persons> persList = personsController.updatePersons(newPersons, firstName, lastName);
+        assertEquals(persList, personsList);
     }
 
     @Test
     void deletePersons() throws Exception {
         String firstName = "John";
         String lastName = "Boyd";
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("02/06/1984");
-        MedicalRecords medicalRecords = new MedicalRecords(firstName,
-                lastName, birthdate, medication, allergies);
-        Persons removePersons = new Persons(firstName, lastName, "1509 Culver St", "Culver",
-                "98000", "800-874-6512", "jadoe@email.com", medicalRecords);
+        Persons removePersons = new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
 
         when(personsController.deletePersons(removePersons, firstName, lastName))
-                .thenReturn(personsServiceImpl.deletePersons(removePersons, firstName, lastName));
+                .thenReturn(null);
 
         mockMvc.perform(delete("/person/{firstName}/{lastName}", firstName, lastName)
                         .contentType("application/json")
@@ -136,6 +140,7 @@ class PersonsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(personsController, times(1)).deletePersons(removePersons, firstName, lastName);
+        String fireStationsString = personsController.deletePersons(removePersons, firstName, lastName);
+        assertNull(fireStationsString);
     }
 }

@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.controllers.dto;
 import com.safetynet.safetynetalerts.models.Persons;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 
 import java.util.List;
 /**
@@ -12,6 +13,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@Generated
 public class ChildrenResidenceAddressDTO {
     private String childrenFirstName;
     private String childrenLastName;

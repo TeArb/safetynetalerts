@@ -12,21 +12,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 class MedicalRecordsControllerTest {
-    @MockBean
-    protected MedicalRecordsController medicalRecordsController;
     @Autowired
-    private MedicalRecordsServiceImpl medicalRecordsServiceImpl;
+    private MedicalRecordsController medicalRecordsController;
+    @MockBean
+    protected MedicalRecordsServiceImpl medicalRecordsService;
     private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -50,27 +52,31 @@ class MedicalRecordsControllerTest {
 
     @Test
     void getMedicalRecords() throws Exception {
-        when(medicalRecordsController.getMedicalRecords()).thenReturn(medicalRecordsServiceImpl.getMedicalRecords());
+        List<MedicalRecords> medicalRecordsList = new ArrayList<>();
+        medicalRecordsList.add(new MedicalRecords("John", "Boyd", new Date("03/06/1989"),
+                List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
+
+        when(medicalRecordsService.getMedicalRecords()).thenReturn(medicalRecordsList);
 
         mockMvc.perform(get("/medicalrecord/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(medicalRecordsController).getMedicalRecords();
+        List<MedicalRecords> medicalList = medicalRecordsController.getMedicalRecords();
+        assertEquals(medicalList, medicalRecordsList);
     }
 
     @Test
     void addMedicalRecords() throws Exception {
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("03/06/1989");
-        MedicalRecords newMedicalRecords = new MedicalRecords("Jake",
-                "Doe", birthdate, medication, allergies);
+        MedicalRecords newMedicalRecords = new MedicalRecords("Jake", "Doe",
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"));
 
-        when(medicalRecordsController.addMedicalRecords(newMedicalRecords))
-                .thenReturn(medicalRecordsServiceImpl.addMedicalRecords(newMedicalRecords));
+        List<MedicalRecords> medicalRecordsList = new ArrayList<>();
+        medicalRecordsList.add(newMedicalRecords);
+
+        when(medicalRecordsService.addMedicalRecords(newMedicalRecords))
+                .thenReturn(medicalRecordsList);
 
         mockMvc.perform(post("/medicalrecord/")
                         .contentType("application/json")
@@ -79,22 +85,22 @@ class MedicalRecordsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(medicalRecordsController, times(1)).addMedicalRecords(newMedicalRecords);
+        List<MedicalRecords> medicalList = medicalRecordsController.addMedicalRecords(newMedicalRecords);
+        assertEquals(medicalList, medicalRecordsList);
     }
 
     @Test
     void updateMedicalRecords() throws Exception {
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("02/06/1984");
         String firstName = "John";
         String lastName = "Boyd";
-        MedicalRecords newMedicalRecords = new MedicalRecords(firstName,
-                lastName, birthdate, medication, allergies);
+        MedicalRecords newMedicalRecords = new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"));
 
-        when(medicalRecordsController.updateMedicalRecords(newMedicalRecords, firstName, lastName))
-                .thenReturn(medicalRecordsServiceImpl.updateMedicalRecords(newMedicalRecords, firstName, lastName));
+        List<MedicalRecords> medicalRecordsList = new ArrayList<>();
+        medicalRecordsList.add(newMedicalRecords);
+
+        when(medicalRecordsService.updateMedicalRecords(newMedicalRecords, firstName, lastName))
+                .thenReturn(medicalRecordsList);
 
             mockMvc.perform(put("/medicalrecord/{firstName}/{lastName}", firstName, lastName)
                         .contentType("application/json")
@@ -103,34 +109,29 @@ class MedicalRecordsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-
-        verify(medicalRecordsController, times(1))
+        List<MedicalRecords> medicalList = medicalRecordsController
                 .updateMedicalRecords(newMedicalRecords, firstName, lastName);
+        assertEquals(medicalList, medicalRecordsList);
     }
 
     @Test
     void deleteMedicalRecords() throws Exception {
-        List<String> medication = Arrays.asList("pharmacol:5000mg",
-                "terazine:10mg");
-        List<String> allergies = List.of("peanut");
-        Date birthdate = new Date("02/06/1984");
         String firstName = "John";
         String lastName = "Boyd";
-        MedicalRecords newMedicalRecords = new MedicalRecords(firstName,
-                lastName, birthdate, medication, allergies);
+        MedicalRecords removeMedicalRecords = new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"));
 
-        when(medicalRecordsController.deleteMedicalRecords(newMedicalRecords, firstName, lastName))
-                .thenReturn(medicalRecordsServiceImpl.deleteMedicalRecords(newMedicalRecords, firstName, lastName));
+        when(medicalRecordsService.deleteMedicalRecords(removeMedicalRecords, firstName, lastName))
+                .thenReturn(null);
 
         mockMvc.perform(delete("/medicalrecord/{firstName}/{lastName}", firstName, lastName)
                         .contentType("application/json")
-                        .param("newMedicalRecords", String.valueOf(newMedicalRecords))
-                        .content(objectMapper.writeValueAsString(newMedicalRecords)))
+                        .param("newMedicalRecords", String.valueOf(removeMedicalRecords))
+                        .content(objectMapper.writeValueAsString(removeMedicalRecords)))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-
-        verify(medicalRecordsController, times(1))
-                .deleteMedicalRecords(newMedicalRecords, firstName, lastName);
+        String fireStationsString = medicalRecordsController.deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
+        assertNull(fireStationsString);
     }
 }

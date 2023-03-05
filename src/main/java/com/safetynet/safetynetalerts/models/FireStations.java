@@ -2,6 +2,8 @@ package com.safetynet.safetynetalerts.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
+
 /**
  * Contains constructor and  method to get/set a fire station's info.
  *
@@ -9,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@Generated
 public class FireStations {
     private String address;
     private String station;

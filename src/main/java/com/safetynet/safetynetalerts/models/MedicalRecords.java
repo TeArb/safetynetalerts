@@ -3,6 +3,7 @@ package com.safetynet.safetynetalerts.models;
 import com.jsoniter.any.Any;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
@@ -18,6 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Generated
 public class MedicalRecords {
     private String firstName;
     private String lastName;

@@ -2,6 +2,7 @@ package com.safetynet.safetynetalerts.controllers.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 
 import java.util.List;
 /**
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@Generated
 public class ResidentAddressAndStationNumberDTO {
     private String lastName;
     private String phone;
