@@ -1,5 +1,8 @@
 package com.safetynet.safetynetalerts.controllers;
 
+import com.safetynet.safetynetalerts.controllers.dto.*;
+import com.safetynet.safetynetalerts.models.MedicalRecords;
+import com.safetynet.safetynetalerts.models.Persons;
 import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.Mockito.verify;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -18,12 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class UrlsControllerTest {
-    @MockBean
-    protected UrlsController urlsController;
+    @Autowired
+    private UrlsController urlsController;
     @Autowired
     private WebApplicationContext webApplicationContext;
-    @Autowired
-    private UrlsService urlsService;
+    @MockBean
+    protected UrlsService urlsService;
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -34,8 +41,18 @@ class UrlsControllerTest {
     @Test
     void getStationNumber() throws Exception {
         String stationNumber = "1";
-        when(urlsController.getStationNumber(stationNumber))
-                .thenReturn(urlsService.getPersonCoveredByStation(stationNumber));
+        String firstName = "John";
+        String lastName = "Boyd";
+
+        List<Persons> personsList = new ArrayList<>();
+        personsList.add(new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"))));
+
+        PersonCoveredByStationDTO personCoveredByStation =
+                new PersonCoveredByStationDTO(5, 1, personsList);
+
+        when(urlsService.getPersonCoveredByStation(stationNumber)).thenReturn(personCoveredByStation);
 
         mockMvc.perform(get("/firestation")
                         .param("stationNumber", stationNumber)
@@ -43,14 +60,25 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getStationNumber(stationNumber);
+        PersonCoveredByStationDTO personStations = urlsController.getStationNumber(stationNumber);
+        assertEquals(personStations, personCoveredByStation);
     }
 
     @Test
     void getChildrenAddress() throws Exception {
         String address = "947 E. Rose Dr";
-        when(urlsController.getChildrenAddress(address))
-                .thenReturn(urlsService.getChildrenResidenceAddress(address));
+        String firstName = "Jake";
+        String lastName = "Doe";
+
+        List<Persons> householdMembers = new ArrayList<>();
+        householdMembers.add(new Persons(firstName, lastName, "1509 Culver St", "Culver", "98000",
+                "800-874-6512", "jadoe@email.com", new MedicalRecords(firstName, lastName,
+                new Date("03/06/1989"), List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"))));
+
+        List<ChildrenResidenceAddressDTO> childrenList = new ArrayList<>();
+        childrenList.add(new ChildrenResidenceAddressDTO(firstName, lastName, 12, householdMembers));
+
+        when(urlsService.getChildrenResidenceAddress(address)).thenReturn(childrenList);
 
         mockMvc.perform(get("/childAlert")
                         .param("address", address)
@@ -58,14 +86,16 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getChildrenAddress(address);
+        List<ChildrenResidenceAddressDTO> childrenAddress = urlsController.getChildrenAddress(address);
+        assertEquals(childrenAddress, childrenList);
     }
 
     @Test
     void getFireStationNumber() throws Exception {
         String fireStation = "1";
-        when(urlsController.getFireStationNumber(fireStation))
-                .thenReturn(urlsService.getResidentPhoneNumber(fireStation));
+        List<String> phoneList = List.of("800-874-6512", "800-874-6512");
+
+        when(urlsService.getResidentPhoneNumber(fireStation)).thenReturn(phoneList);
 
         mockMvc.perform(get("/phoneAlert")
                         .param("fireStation", fireStation)
@@ -73,14 +103,19 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getFireStationNumber(fireStation);
+        List<String> fireStationNumber = urlsController.getFireStationNumber(fireStation);
+        assertEquals(fireStationNumber, phoneList);
     }
 
     @Test
     void getResidentAddress() throws Exception {
         String address = "947 E. Rose Dr";
-        when(urlsController.getResidentAddress(address))
-                .thenReturn(urlsService.getResidentAddressAndStationNumber(address));
+
+        List<ResidentAddressAndStationNumberDTO> residentList = new ArrayList<>();
+        residentList.add(new ResidentAddressAndStationNumberDTO("Doe", "800-874-6512", 20,
+                List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut"), "1"));
+
+        when(urlsService.getResidentAddressAndStationNumber(address)).thenReturn(residentList);
 
         mockMvc.perform(get("/fire")
                         .param("address", address)
@@ -88,14 +123,19 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getResidentAddress(address);
+        List<ResidentAddressAndStationNumberDTO> residentAddress = urlsController.getResidentAddress(address);
+        assertEquals(residentAddress, residentList);
     }
 
     @Test
     void getListOfStationNumber() throws Exception {
         String stations = "1";
-        when(urlsController.getListOfStationNumber(stations))
-                .thenReturn(urlsService.getHouseholdServedByStation(stations));
+
+        List<HouseholdServedByStationDTO> householdList = new ArrayList<>();
+        householdList.add(new HouseholdServedByStationDTO("Doe" ,"800-874-6512",
+                20, List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
+
+        when(urlsService.getHouseholdServedByStation(stations)).thenReturn(householdList);
 
         mockMvc.perform(get("/flood/stations")
                         .param("stations", stations)
@@ -103,15 +143,20 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getListOfStationNumber(stations);
+        List<HouseholdServedByStationDTO> stationNumberList = urlsController.getListOfStationNumber(stations);
+        assertEquals(stationNumberList, householdList);
     }
 
     @Test
     void getPersonFirstNameLastName() throws Exception {
         String firstName = "John";
         String lastName = "Boyd";
-        when(urlsController.getPersonFirstNameLastName(firstName, lastName))
-                .thenReturn(urlsService.getInhabitantInfo(firstName, lastName));
+
+        List<InhabitantInfoDTO> inhabitantInfoList = new ArrayList<>();
+        inhabitantInfoList.add(new InhabitantInfoDTO("Doe", "15 St James", 25,
+                "jakedoe@email.com", List.of("pharmacol:5000mg", "terazine:10mg"), List.of("peanut")));
+
+        when(urlsService.getInhabitantInfo(firstName, lastName)).thenReturn(inhabitantInfoList);
 
         mockMvc.perform(get("/personInfo")
                         .param("firstName", firstName)
@@ -120,14 +165,16 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getPersonFirstNameLastName(firstName, lastName);
+        List<InhabitantInfoDTO> personFirstNameLastName = urlsController.getPersonFirstNameLastName(firstName, lastName);
+        assertEquals(personFirstNameLastName, inhabitantInfoList);
     }
 
     @Test
     void getCity() throws Exception {
         String city = "Culver";
-        when(urlsController.getCity(city))
-                .thenReturn(urlsService.getEmailInhabitantOfCity(city));
+        List<String> emailsList = List.of("jakedoe@email.com","jakedoe@email.com");
+
+        when(urlsService.getEmailInhabitantOfCity(city)).thenReturn(emailsList);
 
         mockMvc.perform(get("/communityEmail")
                         .param("city", city)
@@ -135,6 +182,7 @@ class UrlsControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(urlsController).getCity(city);
+        List<String> cityString = urlsController.getCity(city);
+        assertEquals(cityString, emailsList);
     }
 }

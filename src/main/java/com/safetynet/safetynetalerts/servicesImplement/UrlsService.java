@@ -197,9 +197,9 @@ public class UrlsService {
             resultHouseholdStation.forEach(station -> personsList.forEach(person -> {
                 // Add the info whose addresses of the people are equal to those of the stations.
                 if (person.getAddress().equals(station.getAddress())) {
-                    resultHouseholdServedByStation.add(new HouseholdServedByStationDTO(person.getLastName()
-                            + " " + person.getFirstName(), person.getPhone(), person.getAge(),
-                            person.getMedicalRecords().getMedication(), person.getMedicalRecords().getAllergies()));
+                    resultHouseholdServedByStation.add(new HouseholdServedByStationDTO(person.getLastName(),
+                            person.getPhone(), person.getAge(), person.getMedicalRecords().getMedication(),
+                            person.getMedicalRecords().getAllergies()));
                 }
             }));
         } else {
