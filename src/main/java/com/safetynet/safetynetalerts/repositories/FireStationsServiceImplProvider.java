@@ -15,6 +15,12 @@ public class FireStationsServiceImplProvider {
     @Autowired
     private FireStationsRepository fireStationsRepository;
     /**
+     * Constructor of FireStationsServiceImplProvider, help for the setup test.
+     */
+    public FireStationsServiceImplProvider(FireStationsRepository fireStationsRepository) {
+        this.fireStationsRepository = fireStationsRepository;
+    }
+    /**
      * Get a fire stations list.
      *
      */
@@ -36,7 +42,7 @@ public class FireStationsServiceImplProvider {
             logger.info("Fire stations added");
         } else {
             logger.error("Fire station already exist.");
-            throw new NullPointerException("Fire station already exist.");
+            throw new IllegalArgumentException("Fire station already exist.");
         }
         return newFireStations;
     }

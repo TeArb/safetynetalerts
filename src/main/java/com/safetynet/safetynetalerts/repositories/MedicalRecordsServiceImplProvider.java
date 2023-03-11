@@ -14,6 +14,13 @@ public class MedicalRecordsServiceImplProvider {
     @Autowired
     private MedicalRecordsRepository medicalRecordsRepository;
     /**
+     * Constructor of MedicalRecordsServiceImplProvider, help for the setup test.
+     */
+    public MedicalRecordsServiceImplProvider(MedicalRecordsRepository medicalRecordsRepository) {
+        this.medicalRecordsRepository = medicalRecordsRepository;
+    }
+
+    /**
      * Get a medical records list.
      *
      */
@@ -38,7 +45,7 @@ public class MedicalRecordsServiceImplProvider {
             logger.info("Medical records added");
         } else {
             logger.error("Medical records already exist.");
-            throw new NullPointerException("Medical records already exist.");
+            throw new IllegalArgumentException("Medical records already exist.");
         }
         return newMedicalRecords;
     }
@@ -80,9 +87,9 @@ public class MedicalRecordsServiceImplProvider {
         List<MedicalRecords> medicalRecordsList = medicalRecordsRepository.getMedicalRecords();
         int index = medicalRecordsList.indexOf(removeMedicalRecords);
         // Checks that firstName and lastName of the medical records is in the list.
-        boolean firstName_LastNameExists = medicalRecordsList.stream().anyMatch(medicalRecords
-                -> (medicalRecords.getFirstName().equals(firstName) && removeMedicalRecords.getFirstName().equals(firstName))
-                && (medicalRecords.getLastName().equals(lastName)&& removeMedicalRecords.getLastName().equals(lastName)));
+        boolean firstName_LastNameExists = medicalRecordsList.stream().anyMatch(
+                medicalRecords -> (medicalRecords.getFirstName().equals(firstName))
+                && (medicalRecords.getLastName().equals(lastName)));
 
         // Remove the medical records present in the list.
         if (firstName_LastNameExists && (index > -1)) {

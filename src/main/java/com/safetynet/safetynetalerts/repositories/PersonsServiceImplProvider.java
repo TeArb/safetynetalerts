@@ -14,6 +14,12 @@ public class PersonsServiceImplProvider {
     @Autowired
     private PersonsRepository personsRepository;
     /**
+     * Constructor of PersonsServiceImplProvider, help for the setup test.
+     */
+    public PersonsServiceImplProvider(PersonsRepository personsRepository) {
+        this.personsRepository = personsRepository;
+    }
+    /**
      * Get a persons list.
      *
      */
@@ -38,7 +44,7 @@ public class PersonsServiceImplProvider {
             logger.info("Person added");
         } else {
             logger.error("Person already exist.");
-            throw new NullPointerException("Person already exist.");
+            throw new IllegalArgumentException("Person already exist.");
         }
         return newPersons;
     }
