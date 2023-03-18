@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PersonsServiceImplProvider {
-    private static final Logger logger = LogManager.getLogger("PersonsServiceImplProvider");
+public class PersonsRepositoryProvider {
+    private static final Logger logger = LogManager.getLogger("PersonsRepositoryProvider");
     @Autowired
     private PersonsRepository personsRepository;
     /**
-     * Constructor of PersonsServiceImplProvider, help for the setup test.
+     * Constructor of PersonsRepositoryProvider, help for the setup test.
      */
-    public PersonsServiceImplProvider(PersonsRepository personsRepository) {
+    public PersonsRepositoryProvider(PersonsRepository personsRepository) {
         this.personsRepository = personsRepository;
     }
     /**

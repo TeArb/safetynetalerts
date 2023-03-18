@@ -10,14 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class FireStationsServiceImplProvider {
-    private static final Logger logger = LogManager.getLogger("FireStationsServiceImplProvider");
+public class FireStationsRepositoryProvider {
+    private static final Logger logger = LogManager.getLogger("FireStationsRepositoryProvider");
     @Autowired
     private FireStationsRepository fireStationsRepository;
     /**
-     * Constructor of FireStationsServiceImplProvider, help for the setup test.
+     * Constructor of FireStationsRepositoryProvider, help for the setup test.
      */
-    public FireStationsServiceImplProvider(FireStationsRepository fireStationsRepository) {
+    public FireStationsRepositoryProvider(FireStationsRepository fireStationsRepository) {
         this.fireStationsRepository = fireStationsRepository;
     }
     /**

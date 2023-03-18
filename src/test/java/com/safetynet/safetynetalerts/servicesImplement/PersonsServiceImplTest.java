@@ -2,7 +2,7 @@ package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.MedicalRecords;
 import com.safetynet.safetynetalerts.models.Persons;
-import com.safetynet.safetynetalerts.repositories.PersonsServiceImplProvider;
+import com.safetynet.safetynetalerts.repositories.PersonsRepositoryProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ class PersonsServiceImplTest {
     @Autowired
     protected PersonsServiceImpl personsServiceImpl;
     @MockBean
-    protected PersonsServiceImplProvider personsServiceImplProvider;
+    protected PersonsRepositoryProvider personsRepositoryProvider;
 
     @Test
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        personsServiceImpl = new PersonsServiceImpl(personsServiceImplProvider);
+        personsServiceImpl = new PersonsServiceImpl(personsRepositoryProvider);
     }
 
     @Test
@@ -35,7 +35,7 @@ class PersonsServiceImplTest {
         personsList.add(new Persons("John", "Boyd", "06/06/1984",
                 "Culver", "97451", "841-874-6512", "jaboyd@email.com", new MedicalRecords()));
 
-        when(personsServiceImplProvider.getPersons()).thenReturn(personsList);
+        when(personsRepositoryProvider.getPersons()).thenReturn(personsList);
 
         assertEquals(1, personsServiceImpl.getPersons().size());
     }

@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class MedicalRecordsServiceImplProvider {
-    private static final Logger logger = LogManager.getLogger("MedicalRecordsServiceImplProvider");
+public class MedicalRecordsRepositoryProvider {
+    private static final Logger logger = LogManager.getLogger("MedicalRecordsRepositoryProvider");
     @Autowired
     private MedicalRecordsRepository medicalRecordsRepository;
     /**
-     * Constructor of MedicalRecordsServiceImplProvider, help for the setup test.
+     * Constructor of MedicalRecordsRepositoryProvider, help for the setup test.
      */
-    public MedicalRecordsServiceImplProvider(MedicalRecordsRepository medicalRecordsRepository) {
+    public MedicalRecordsRepositoryProvider(MedicalRecordsRepository medicalRecordsRepository) {
         this.medicalRecordsRepository = medicalRecordsRepository;
     }
 

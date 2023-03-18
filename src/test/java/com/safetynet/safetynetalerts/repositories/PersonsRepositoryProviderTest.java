@@ -16,16 +16,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class PersonsServiceImplProviderTest {
+class PersonsRepositoryProviderTest {
     @Autowired
-    private PersonsServiceImplProvider personsProvider;
+    private PersonsRepositoryProvider personsProvider;
 
     @MockBean
     protected PersonsRepository personsRepository;
 
     @BeforeEach
     void setUp() {
-        personsProvider = new PersonsServiceImplProvider(personsRepository);
+        personsProvider = new PersonsRepositoryProvider(personsRepository);
     }
 
 

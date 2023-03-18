@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.MedicalRecords;
-import com.safetynet.safetynetalerts.repositories.MedicalRecordsServiceImplProvider;
+import com.safetynet.safetynetalerts.repositories.MedicalRecordsRepositoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -21,12 +21,12 @@ class MedicalRecordsServiceImplTest {
     @Autowired
     protected MedicalRecordsServiceImpl medicalRecordsServiceImpl;
     @MockBean
-    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
+    protected MedicalRecordsRepositoryProvider medicalRecordsRepositoryProvider;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        medicalRecordsServiceImpl = new MedicalRecordsServiceImpl(medicalRecordsServiceImplProvider);
+        medicalRecordsServiceImpl = new MedicalRecordsServiceImpl(medicalRecordsRepositoryProvider);
     }
 
     @Test
@@ -35,7 +35,7 @@ class MedicalRecordsServiceImplTest {
         medicalRecordsList.add(new MedicalRecords("John", "Boyd", "06/06/1984",
                 new ArrayList<>(), new ArrayList<>()));
 
-        when(medicalRecordsServiceImplProvider.getMedicalRecords()).thenReturn(medicalRecordsList);
+        when(medicalRecordsRepositoryProvider.getMedicalRecords()).thenReturn(medicalRecordsList);
 
         assertEquals(1, medicalRecordsServiceImpl.getMedicalRecords().size());
     }

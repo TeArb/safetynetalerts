@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class FireStationsServiceImplProviderTest {
+class FireStationsRepositoryProviderTest {
     @Autowired
-    private FireStationsServiceImplProvider fireStationsProvider;
+    private FireStationsRepositoryProvider fireStationsProvider;
     @MockBean
     protected FireStationsRepository fireStationsRepository;
 
     @BeforeEach
     void setUp() {
-        fireStationsProvider = new FireStationsServiceImplProvider(fireStationsRepository);
+        fireStationsProvider = new FireStationsRepositoryProvider(fireStationsRepository);
     }
 
     @Test

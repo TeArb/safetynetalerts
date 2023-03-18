@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.MedicalRecords;
-import com.safetynet.safetynetalerts.repositories.MedicalRecordsServiceImplProvider;
+import com.safetynet.safetynetalerts.repositories.MedicalRecordsRepositoryProvider;
 import com.safetynet.safetynetalerts.services.IMedicalRecordsService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,20 @@ import java.util.List;
 @NoArgsConstructor
 public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
     @Autowired
-    protected MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider;
+    protected MedicalRecordsRepositoryProvider medicalRecordsRepositoryProvider;
     private static List<MedicalRecords> medicalRecordsList;
     /**
      * Constructor of medical records, help for the setup test.
      */
-    public MedicalRecordsServiceImpl(MedicalRecordsServiceImplProvider medicalRecordsServiceImplProvider) {
-        this.medicalRecordsServiceImplProvider = medicalRecordsServiceImplProvider;
+    public MedicalRecordsServiceImpl(MedicalRecordsRepositoryProvider medicalRecordsRepositoryProvider) {
+        this.medicalRecordsRepositoryProvider = medicalRecordsRepositoryProvider;
     }
 
     /**
      * Set static the medical records list.
      */
     public void setUp() {
-        medicalRecordsList = medicalRecordsServiceImplProvider.getMedicalRecords();
+        medicalRecordsList = medicalRecordsRepositoryProvider.getMedicalRecords();
     }
 
     /**
@@ -42,7 +42,7 @@ public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
      */
     public List<MedicalRecords> addMedicalRecords(MedicalRecords newMedicalRecords) {
         setUp();
-        medicalRecordsList.add(medicalRecordsServiceImplProvider.addMedicalRecords(newMedicalRecords));
+        medicalRecordsList.add(medicalRecordsRepositoryProvider.addMedicalRecords(newMedicalRecords));
 
         return medicalRecordsList;
     }
@@ -57,7 +57,7 @@ public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
                 .filter(medicalRecords-> medicalRecords.getFirstName().equals(firstName)
                         && medicalRecords.getLastName().equals(lastName))
                 .findFirst().orElse(null));
-        medicalRecordsList.add(this.medicalRecordsServiceImplProvider
+        medicalRecordsList.add(this.medicalRecordsRepositoryProvider
                 .updateMedicalRecords(newMedicalRecords, firstName, lastName));
 
         return medicalRecordsList;
@@ -68,6 +68,6 @@ public class MedicalRecordsServiceImpl implements IMedicalRecordsService {
      */
     @Override
     public String deleteMedicalRecords(MedicalRecords removeMedicalRecords, String firstName, String lastName) {
-        return this.medicalRecordsServiceImplProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
+        return this.medicalRecordsRepositoryProvider.deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
     }
 }

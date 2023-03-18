@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.FireStations;
-import com.safetynet.safetynetalerts.repositories.FireStationsServiceImplProvider;
+import com.safetynet.safetynetalerts.repositories.FireStationsRepositoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -21,12 +21,12 @@ class FireStationsServiceImplTest {
     @Autowired
     protected FireStationsServiceImpl fireStationsServiceImpl;
     @MockBean
-    protected FireStationsServiceImplProvider fireStationsServiceImplProvider;
+    protected FireStationsRepositoryProvider fireStationsRepositoryProvider;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        fireStationsServiceImpl = new FireStationsServiceImpl(fireStationsServiceImplProvider);
+        fireStationsServiceImpl = new FireStationsServiceImpl(fireStationsRepositoryProvider);
     }
 
     @Test
@@ -34,7 +34,7 @@ class FireStationsServiceImplTest {
         List<FireStations> fireStationsList = new ArrayList<>();
         fireStationsList.add(new FireStations("1509 Culver St", "3"));
 
-        when(fireStationsServiceImplProvider.getFireStations()).thenReturn(fireStationsList);
+        when(fireStationsRepositoryProvider.getFireStations()).thenReturn(fireStationsList);
 
         assertEquals(1, fireStationsServiceImpl.getFireStations().size());
     }

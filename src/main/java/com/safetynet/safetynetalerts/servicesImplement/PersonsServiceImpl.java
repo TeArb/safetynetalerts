@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.Persons;
-import com.safetynet.safetynetalerts.repositories.PersonsServiceImplProvider;
+import com.safetynet.safetynetalerts.repositories.PersonsRepositoryProvider;
 import com.safetynet.safetynetalerts.services.IPersonsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,19 +11,19 @@ import java.util.List;
 @Service
 public class PersonsServiceImpl implements IPersonsService {
     @Autowired
-    private PersonsServiceImplProvider personsServiceImplProvider;
+    private PersonsRepositoryProvider personsRepositoryProvider;
     private static List<Persons> personsList;
     /**
      * Constructor of persons, help for the setup test.
      */
-    public PersonsServiceImpl(PersonsServiceImplProvider personsServiceImplProvider) {
-        this.personsServiceImplProvider = personsServiceImplProvider;
+    public PersonsServiceImpl(PersonsRepositoryProvider personsRepositoryProvider) {
+        this.personsRepositoryProvider = personsRepositoryProvider;
     }
     /**
      * Set static the persons list.
      */
     public void setUp() {
-        personsList = personsServiceImplProvider.getPersons();
+        personsList = personsRepositoryProvider.getPersons();
     }
 
     /**
@@ -39,7 +39,7 @@ public class PersonsServiceImpl implements IPersonsService {
      */
     public List<Persons> addPersons(Persons newPersons) {
         setUp();
-        personsList.add(personsServiceImplProvider.addPersons(newPersons));
+        personsList.add(personsRepositoryProvider.addPersons(newPersons));
 
         return personsList;
     }
@@ -54,7 +54,7 @@ public class PersonsServiceImpl implements IPersonsService {
                 .filter(person -> person.getFirstName().equals(firstName)
                         && person.getLastName().equals(lastName))
                 .findFirst().orElse(null));
-        personsList.add(this.personsServiceImplProvider
+        personsList.add(this.personsRepositoryProvider
                 .updatePersons(newPersons, firstName, lastName));
 
         return personsList;
@@ -65,7 +65,7 @@ public class PersonsServiceImpl implements IPersonsService {
      */
     @Override
     public String deletePersons(Persons removePerson, String firstName, String lastName) {
-        return this.personsServiceImplProvider.deletePersons(removePerson, firstName, lastName);
+        return this.personsRepositoryProvider.deletePersons(removePerson, firstName, lastName);
     }
 
 }
