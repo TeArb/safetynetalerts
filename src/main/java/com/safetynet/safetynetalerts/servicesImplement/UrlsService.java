@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
-import com.safetynet.safetynetalerts.controllers.dto.*;
+import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.models.FireStations;
 import com.safetynet.safetynetalerts.models.Persons;
 import com.safetynet.safetynetalerts.repositories.FireStationsRepository;

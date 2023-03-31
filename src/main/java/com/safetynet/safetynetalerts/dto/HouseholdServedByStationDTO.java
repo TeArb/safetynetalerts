@@ -1,4 +1,4 @@
-package com.safetynet.safetynetalerts.controllers.dto;
+package com.safetynet.safetynetalerts.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,18 +6,17 @@ import lombok.Generated;
 
 import java.util.List;
 /**
- * Contains constructor for initialize the args of "InhabitantInfoDTO".
+ * Contains constructor for initialize the args of "HouseholdServedByStationDTO".
  *
  * @author Terry
  */
 @Data
 @AllArgsConstructor
 @Generated
-public class InhabitantInfoDTO {
+public class HouseholdServedByStationDTO {
     private String lastName;
-    private String address;
+    private String phone;
     private int age;
-    private String email;
     private List<String> medication;
     private List<String> allergies;
 }

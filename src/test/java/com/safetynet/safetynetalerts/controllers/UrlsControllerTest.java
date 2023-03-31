@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.controllers;
 
-import com.safetynet.safetynetalerts.controllers.dto.*;
+import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.models.MedicalRecords;
 import com.safetynet.safetynetalerts.models.Persons;
 import com.safetynet.safetynetalerts.servicesImplement.UrlsService;

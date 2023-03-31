@@ -1,6 +1,6 @@
 package com.safetynet.safetynetalerts.controllers;
 
-import com.safetynet.safetynetalerts.controllers.dto.*;
+import com.safetynet.safetynetalerts.dto.*;
 import com.safetynet.safetynetalerts.servicesImplement.UrlsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
