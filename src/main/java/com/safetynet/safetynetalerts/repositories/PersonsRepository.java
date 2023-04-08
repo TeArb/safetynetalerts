@@ -1,61 +1,102 @@
 package com.safetynet.safetynetalerts.repositories;
 
-import com.jsoniter.JsonIterator;
-import com.jsoniter.any.Any;
+import com.safetynet.safetynetalerts.constants.DataLoader;
 import com.safetynet.safetynetalerts.models.Persons;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 /**
  * Method to get the persons info's from JSON file.
  *
  */
 @Repository
+@AllArgsConstructor
 public class PersonsRepository {
     private static final Logger logger = LogManager.getLogger("PersonsRepository");
-    @Autowired
-    private MedicalRecordsRepository medicalRecordsRepository;
+
     /**
-     * Method to get the persons info's from JSON file.
+     * Get a persons list.
      *
      */
     public List<Persons> getPersons() {
-        List<Persons> personsList = new ArrayList<>();
-        String path = "src/main/resources/data.json";
+        logger.info("Persons got");
+        return DataLoader.PERSONS_LIST;
+    }
+    /**
+     * Add a person.
+     *
+     */
+    public Persons addPersons(@NotNull Persons newPersons) {
+        // Checks that firstName and lastName of the person is in the list.
+        boolean firstName_LastNameExists = DataLoader.PERSONS_LIST.stream().anyMatch(
+                person -> newPersons.getFirstName().equals(person.getFirstName())
+                && newPersons.getLastName().equals(person.getLastName()));
 
-        try {
-            // Write into binary format.
-            byte[] bytesFile = Files.readAllBytes(new File(path).toPath());
-            // Convert and read the binary format.
-            JsonIterator jsonIterator = JsonIterator.parse(bytesFile);
-            Any any = jsonIterator.readAny();
-            Any personsAny = any.get("persons");
+        // Added a non-existing person.
+        if (!firstName_LastNameExists) {
+            DataLoader.PERSONS_LIST.add(newPersons);
+            logger.info("Person added");
+        } else {
+            logger.error("Person already exist.");
+            throw new IllegalArgumentException("Person already exist.");
+        }
+        return newPersons;
+    }
+    /**
+     * Update a person of the list.
+     *
+     */
+    public Persons updatePersons(Persons newPersons, String firstName, String lastName) {
+        // Checks that firstName and lastName of the person is in the list.
+        boolean firstName_LastNameExists = DataLoader.PERSONS_LIST.stream().anyMatch(
+                person -> firstName.equals(person.getFirstName())
+                && lastName.equals(person.getLastName()));
 
-            // Add json string to the list.
-            personsAny.forEach(item -> personsList.add(new Persons(
-                    item.get("firstName").toString(),
-                    item.get("lastName").toString(),
-                    item.get("address").toString(),
-                    item.get("city").toString(),
-                    item.get("zip").toString(),
-                    item.get("phone").toString(),
-                    item.get("email").toString(),
-                    // To add medical record info's according to people names.
-                    medicalRecordsRepository.getOne(item.get("firstName").toString(),
-                            item.get("lastName").toString())
-            )));
-            return personsList;
+        // Update the person present in the list.
+        if (firstName_LastNameExists && (firstName.equals(newPersons.getFirstName())
+                && lastName.equals(newPersons.getLastName()))) {
+            // Run through the persons list to modify an existing firstName and lastName
+            DataLoader.PERSONS_LIST.forEach(person -> {
+                if (person.getFirstName().equals(firstName)
+                        && person.getLastName().equals(lastName)) {
+                person.setAddress(newPersons.getAddress());
+                person.setCity(newPersons.getCity());
+                person.setZip(newPersons.getZip());
+                person.setPhone(newPersons.getPhone());
+                person.setEmail(newPersons.getEmail());
+                }
+            });
+            logger.info("Person updated");
+        } else{
+            logger.error("Person "  + firstName + " " + lastName + " don't exist.");
+            throw new NullPointerException("Person "  + firstName + " " + lastName + " don't exist.");
+        }
+        return newPersons;
+    }
+    /**
+     * Delete a person of the list.
+     *
+     */
+    public String deletePersons(Persons removePersons, String firstName, String lastName) {
+        int index = DataLoader.PERSONS_LIST.indexOf(removePersons);
+        // Checks that firstName and lastName of the person is in the list.
+        boolean firstName_LastNameExists = DataLoader.PERSONS_LIST.stream().anyMatch(
+                person -> firstName.equals(person.getFirstName())
+                && lastName.equals(person.getLastName()));
 
-        } catch (IOException e) {
-            logger.error("Failed to convert JSON file PersonsRepository", e);
-            throw new RuntimeException(e);
+        // Remove the person present in the list.
+        if (firstName_LastNameExists && (index > -1) && (firstName.equals(removePersons.getFirstName())
+                && lastName.equals(removePersons.getLastName()))) {
+            DataLoader.PERSONS_LIST.remove(removePersons);
+            logger.info("Person deleted.");
+            return "Person deleted.";
+        } else {
+            logger.error("Person not found.");
+            return "Person not found.";
         }
     }
 }

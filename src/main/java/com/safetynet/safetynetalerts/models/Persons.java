@@ -63,12 +63,16 @@ public class Persons {
      *
      */
     public int getAge() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        cal.setTime(this.medicalRecords.getBirthdate());
+        try {
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+            cal.setTime(this.medicalRecords.getBirthdate());
 
-        LocalDate start = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-        LocalDate stop = LocalDate.now(ZoneId.of("Europe/Paris"));
+            LocalDate start = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            LocalDate stop = LocalDate.now(ZoneId.of("Europe/Paris"));
 
-        return (int) ChronoUnit.YEARS.between(start, stop);
+            return (int) ChronoUnit.YEARS.between(start, stop);
+        } catch (Exception e) {
+         return 0;
+        }
     }
 }

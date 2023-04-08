@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.MedicalRecords;
-import com.safetynet.safetynetalerts.repositories.MedicalRecordsRepositoryProvider;
+import com.safetynet.safetynetalerts.repositories.MedicalRecordsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -19,14 +19,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class MedicalRecordsServiceImplTest {
     @Autowired
-    protected MedicalRecordsServiceImpl medicalRecordsServiceImpl;
+    protected MedicalRecordsServiceImpl medicalRecordsService;
     @MockBean
-    protected MedicalRecordsRepositoryProvider medicalRecordsRepositoryProvider;
+    protected MedicalRecordsRepository medicalRecordsRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        medicalRecordsServiceImpl = new MedicalRecordsServiceImpl(medicalRecordsRepositoryProvider);
+        medicalRecordsService = new MedicalRecordsServiceImpl(medicalRecordsRepository);
     }
 
     @Test
@@ -35,16 +35,21 @@ class MedicalRecordsServiceImplTest {
         medicalRecordsList.add(new MedicalRecords("John", "Boyd", "06/06/1984",
                 new ArrayList<>(), new ArrayList<>()));
 
-        when(medicalRecordsRepositoryProvider.getMedicalRecords()).thenReturn(medicalRecordsList);
+        when(medicalRecordsRepository.getMedicalRecords()).thenReturn(medicalRecordsList);
 
-        assertEquals(1, medicalRecordsServiceImpl.getMedicalRecords().size());
+        assertEquals(1, medicalRecordsService.getMedicalRecords().size());
     }
 
     @Test
     void addMedicalRecords() {
         MedicalRecords newMedicalRecords = new MedicalRecords("John", "Boyd", "06/06/1984",
                 new ArrayList<>(), new ArrayList<>());
-        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImpl.addMedicalRecords(newMedicalRecords);
+
+        List<MedicalRecords> medicalRecordsList = medicalRecordsService.addMedicalRecords(newMedicalRecords);
+        medicalRecordsList.add(newMedicalRecords);
+
+        when(medicalRecordsRepository.getMedicalRecords()).thenReturn(medicalRecordsList);
+        when(medicalRecordsRepository.addMedicalRecords(newMedicalRecords)).thenReturn(newMedicalRecords);
 
         assertEquals(1, medicalRecordsList.size());
     }
@@ -55,12 +60,16 @@ class MedicalRecordsServiceImplTest {
         String lastName = "Boyd";
         MedicalRecords newMedicalRecords = new MedicalRecords(firstName, lastName, "06/06/1984",
                         new ArrayList<>(), new ArrayList<>());
-        List<MedicalRecords> medicalRecordsList = medicalRecordsServiceImpl
+
+        List<MedicalRecords> medicalRecordsList = medicalRecordsService
                 .updateMedicalRecords(newMedicalRecords, firstName, lastName);
+        medicalRecordsList.add(newMedicalRecords);
+
+        when(medicalRecordsRepository.updateMedicalRecords(newMedicalRecords, firstName, lastName))
+                .thenReturn(newMedicalRecords);
 
         assertEquals(1, medicalRecordsList.size());
     }
-
 
     @Test
     void deleteMedicalRecords() {
@@ -68,7 +77,7 @@ class MedicalRecordsServiceImplTest {
         String lastName = "Boyd";
         MedicalRecords removeMedicalRecords = new MedicalRecords(firstName, lastName, "06/06/1984",
                 new ArrayList<>(), new ArrayList<>());
-        String medicalRecordsString = medicalRecordsServiceImpl
+        String medicalRecordsString = medicalRecordsService
                 .deleteMedicalRecords(removeMedicalRecords, firstName, lastName);
 
         assertNull(medicalRecordsString);

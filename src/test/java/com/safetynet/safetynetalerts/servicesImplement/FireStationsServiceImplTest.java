@@ -1,7 +1,7 @@
 package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.FireStations;
-import com.safetynet.safetynetalerts.repositories.FireStationsRepositoryProvider;
+import com.safetynet.safetynetalerts.repositories.FireStationsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -12,21 +12,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class FireStationsServiceImplTest {
     @Autowired
-    protected FireStationsServiceImpl fireStationsServiceImpl;
+    private FireStationsServiceImpl fireStationsService;
     @MockBean
-    protected FireStationsRepositoryProvider fireStationsRepositoryProvider;
+    protected FireStationsRepository fireStationsRepository;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        fireStationsServiceImpl = new FireStationsServiceImpl(fireStationsRepositoryProvider);
+        fireStationsService = new FireStationsServiceImpl(fireStationsRepository);
     }
 
     @Test
@@ -34,32 +33,42 @@ class FireStationsServiceImplTest {
         List<FireStations> fireStationsList = new ArrayList<>();
         fireStationsList.add(new FireStations("1509 Culver St", "3"));
 
-        when(fireStationsRepositoryProvider.getFireStations()).thenReturn(fireStationsList);
+        when(fireStationsRepository.getFireStations()).thenReturn(fireStationsList);
 
-        assertEquals(1, fireStationsServiceImpl.getFireStations().size());
+        assertEquals(1, fireStationsService.getFireStations().size());
     }
 
     @Test
     void addFireStations() {
-        FireStations newFireStations = new FireStations("1509 Culver St", "3");
-        List<FireStations> fireStationsList = fireStationsServiceImpl.addFireStations(newFireStations);
+        FireStations newFireStation = new FireStations("1480 Clever", "1");
+
+        List<FireStations> fireStationsList = fireStationsService.addFireStations(newFireStation);
+        fireStationsList.add(newFireStation);
+
+        when(fireStationsRepository.getFireStations()).thenReturn(fireStationsList);
+        when(fireStationsRepository.addFireStations(newFireStation)).thenReturn(newFireStation);
+
         assertEquals(1, fireStationsList.size());
     }
 
     @Test
     void updateFireStations() {
-        String address = "1509 Culver St";
-        FireStations newFireStations = new FireStations(address, "3");
-        List<FireStations> fireStationsList = fireStationsServiceImpl.updateFireStations(newFireStations, address);
+        String address = "830 Colline Baker";
+        FireStations newFireStation = new FireStations("1480 Clever", "1");
+
+        List<FireStations> fireStationsList = fireStationsService.updateFireStations(newFireStation, address);
+        fireStationsList.add(newFireStation);
+
+        when(fireStationsRepository.updateFireStations(newFireStation, address))
+                .thenReturn(newFireStation);
 
         assertEquals(1, fireStationsList.size());
     }
 
     @Test
     void deleteFireStations() {
-        String address = "1509 Culver St";
-        FireStations removeFireStations = new FireStations(address, "3");
-        String medicalRecordsString = fireStationsServiceImpl
+        FireStations removeFireStations = new FireStations("1509 Culver St", "3");
+        String medicalRecordsString = fireStationsService
                 .deleteFireStations(removeFireStations);
 
         assertNull(medicalRecordsString);

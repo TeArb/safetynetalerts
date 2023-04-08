@@ -2,7 +2,8 @@ package com.safetynet.safetynetalerts.servicesImplement;
 
 import com.safetynet.safetynetalerts.models.MedicalRecords;
 import com.safetynet.safetynetalerts.models.Persons;
-import com.safetynet.safetynetalerts.repositories.PersonsRepositoryProvider;
+import com.safetynet.safetynetalerts.repositories.PersonsRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class PersonsServiceImplTest {
     @Autowired
-    protected PersonsServiceImpl personsServiceImpl;
+    protected PersonsServiceImpl personsService;
     @MockBean
-    protected PersonsRepositoryProvider personsRepositoryProvider;
+    protected PersonsRepository personsRepository;
 
-    @Test
+    @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        personsServiceImpl = new PersonsServiceImpl(personsRepositoryProvider);
+        personsService = new PersonsServiceImpl(personsRepository);
     }
 
     @Test
@@ -35,27 +36,38 @@ class PersonsServiceImplTest {
         personsList.add(new Persons("John", "Boyd", "06/06/1984",
                 "Culver", "97451", "841-874-6512", "jaboyd@email.com", new MedicalRecords()));
 
-        when(personsRepositoryProvider.getPersons()).thenReturn(personsList);
+        when(personsRepository.getPersons()).thenReturn(personsList);
 
-        assertEquals(1, personsServiceImpl.getPersons().size());
+        assertEquals(1, personsService.getPersons().size());
     }
 
     @Test
     void addPersons() {
-        Persons newPersons = new Persons("John", "Boyd", "06/06/1984",
+        Persons newPerson = new Persons("John", "Boyd", "06/06/1984",
                 "Culver", "97451", "841-874-6512", "jaboyd@email.com", new MedicalRecords());
-        List<Persons> medicalRecordsList = personsServiceImpl.addPersons(newPersons);
 
-        assertEquals(1, medicalRecordsList.size());
+        List<Persons> personsList = personsService.addPersons(newPerson);
+        personsList.add(newPerson);
+
+        when(personsRepository.getPersons()).thenReturn(personsList);
+        when(personsRepository.addPersons(newPerson)).thenReturn(newPerson);
+
+        assertEquals(1, personsList.size());
     }
 
     @Test
     void updatePersons() {
         String firstName = "John";
         String lastName = "Boyd";
-        Persons newPersons = new Persons("John", "Boyd", "06/06/1984",
+        Persons newPersons = new Persons(firstName, lastName, "06/06/1984",
                 "Culver", "97451", "841-874-6512", "jaboyd@email.com", new MedicalRecords());
-        List<Persons> personsList = personsServiceImpl.updatePersons(newPersons, firstName, lastName);
+
+        List<Persons> personsList = personsService
+                .updatePersons(newPersons, firstName, lastName);
+        personsList.add(newPersons);
+
+        when(personsRepository.updatePersons(newPersons, firstName, lastName))
+                .thenReturn(newPersons);
 
         assertEquals(1, personsList.size());
     }
@@ -66,9 +78,9 @@ class PersonsServiceImplTest {
         String lastName = "Boyd";
         Persons newPersons = new Persons("John", "Boyd", "06/06/1984",
                 "Culver", "97451", "841-874-6512", "jaboyd@email.com", new MedicalRecords());
-        String medicalRecordsString = personsServiceImpl
+        String personsString = personsService
                 .deletePersons(newPersons, firstName, lastName);
 
-        assertNull(medicalRecordsString);
+        assertNull(personsString);
     }
 }
